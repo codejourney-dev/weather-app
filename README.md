@@ -26,6 +26,7 @@ The project is currently in its UI prototype stage. The initial version is built
 - [x] Create responsive layouts
 - [x] Implement forecast carousels
 - [x] Build weather information sections
+- [x] Implement location management sections
 - [ ] Rebuild with React
 - [ ] Add TypeScript
 - [ ] Add Tailwind CSS
