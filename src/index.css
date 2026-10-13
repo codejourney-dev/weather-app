@@ -1,18 +1,18 @@
 html{
   font-family: sans-serif;
+  overflow-x: hidden;
+  scrollbar-width: none;
 }
-
 *{
   margin: 0;padding: 0;
   min-width: 0;
   box-sizing: border-box;
 }
-
 body{
   overflow-x: hidden;
   margin: 0;
   scroll-behavior: smooth;
 }
 .hidden{
-    display: none !important;
+    display: none;
 }

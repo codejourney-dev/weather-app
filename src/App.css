@@ -1,30 +1,43 @@
-.container{
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    top: 0;left: 0px;
-    width: 100vw;
-    height: 100vh;
-    transition: all ease-in-out 0.5s;
-    background-color: antiquewhite;
+.app-container{
+  background-color: antiquewhite;
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  left: 0;right: 0;
+  transition: all ease-in-out 0.5s;
 }
-.container.is-open{
-    left: -400px;
+.app-container.is-open{
+    left: -25vw;
     box-shadow: inset -1px 0 30px rgba(0,0,0,0.6);
 }
-.container.setting-open{
-    left: 400px;
+.app-container.setting-open{
+    left: 25vw;
     box-shadow: inset 1px 0em 30px rgba(0,0,0,0.6);
+}
+button{
+    border: none;
+    background: none;
+    outline: none;
+    display: flex;
+}
+.card{
+    padding: 1rem;
+    background-color: white;
+    border: 1px solid #111;
+    border-radius: 16px;
+    box-shadow: 0 3px 0 #111;
 }
 /* ---------- Setting Menu Section ---------- */
 .setting-menu{
+    --i: 1;
     position: fixed;
-    top: 0;left: -400px;
+    top: 0;left: -25vw;
     background-color: bisque;
-    height: 100vh;
+    width: 25vw;height: 100vh;
+    max-width: 400px;
+    min-width: 250px;
     display: flex;
     flex-direction: column;
-    min-width: 400px !important;
     transition: left ease-in-out 0.5s;
 }
 .setting-menu.setting-open{
@@ -55,12 +68,13 @@
 /* ---------- Location Menu Section ---------- */
 .location-mgt{
     position: fixed;
-    top: 0;right: -400px;
+    top: 0;right: -25vw;
     background-color: bisque;
-    height: 100vh;
+    height: 100vh;width: 25vw;
+    max-width: 400px;
+    min-width: 250px;
     display: flex;
     flex-direction: column;
-    min-width: 400px !important;
     transition: right ease-in-out 0.5s;
 }
 .location-mgt.is-open{
@@ -69,21 +83,29 @@
 .location-mgt .header{
     height: 7vh;
 }
-.location-mgt form{
-    width: 100%;height: 100%;
-    padding: 1rem;
-    position: relative;
-}
-.location-mgt input{
+.location-mgt input.card{
     padding: 1rem;
     width: 100%;height: 100%; 
+    outline: none;
 }
-.location-mgt label{
+.suggestion-list{
+    margin-top: 0.5rem;
+    list-style: none;
+    z-index: 1000;
     position: absolute;
-    left: 6%;
-    top: 50%;
-    transform: translateY(-40%);
 }
+.suggestion-item{
+    margin: 0.75rem 0;
+    transition: all 0.5s ease-in-out;
+}
+.suggestion-item:hover{
+    cursor: pointer;
+    background-color: rgb(255, 238, 217);
+}
+input.card:focus .search-label{
+    display: none;
+}
+
 .locations{
     height: 100%;
     position: relative;
@@ -96,19 +118,14 @@
 }
 .location{
     padding: 1rem;
-}
-.btns{
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
     display: flex;
-    flex-direction: row;
-    width: 100%;
-    padding: 1rem;
-    gap: 1rem;
     justify-content: space-between;
-    background-color: bisque;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+.location.is-selected {
+  border: 2px solid #ff4400;
 }
 .add-location,
 .manage-location{
@@ -117,13 +134,28 @@
     width: 100%;
     white-space: nowrap;
     font-weight: bold;
+} 
+
+.add-location-warp{
+    border: 1px solid red;
+    position: fixed;
+    display: flex;
+    top: 0;left: 0;
+    width: 100vw;height: 100vh;
+    z-index: 10000;
+    background-color: #1111116c;
+    justify-content: center;
 }
-.card{
-    padding: 1rem;
-    background-color: white;
-    border: 1px solid #111;
+.add-location-warp form{
+    width: fit-content;height: fit-content;
+    border: 1px solid blue;
+    margin-top: 5rem;
+}
+.add-location-warp input{
+    background-color: #ffffff84;
+    border: 1px solid #000;
     border-radius: 16px;
-    box-shadow: 0 3px 0 #111;
+    font-size: 1.5rem;
 }
 /* ---------- Main Section ---------- */
 .forecast{
@@ -131,7 +163,7 @@
     scrollbar-width: none;
 }
 /* ----- Navigation ----- */
-nav{
+nav.navbar{
     top: 0;left: 0;
     width: 100%;
     display: flex;
@@ -140,8 +172,9 @@ nav{
     justify-content: space-between;
     text-transform: uppercase;
     padding: 1rem 2.5rem;
-    z-index: 10000;
     box-shadow: 0 1px 30px rgba(0,0,0,0.06);
+    position: sticky;
+    background-color: antiquewhite;
 }
 .menu-btn{
     width: 2.5rem;height: 2.5rem;
@@ -210,42 +243,68 @@ nav{
     transform: rotate(40deg);
 }
 /* ---------- Showing Forecast Section ---------- */
-.current-location{
-    margin: 0 auto;
-}
-.current-situation{
+.hero{
     position: relative;
-    min-height: 100vh;
-}
-.current-condition,
-.current-temperature,
-.minmax-temp, .details{
-    position: relative;
-    display: flex;
-    align-content: center;
-    justify-content: center;
-    vertical-align: middle;
-    margin-top: 2rem;
-    font-size: 1.5rem;
-}
-.current-temperature{
-    margin-top: 5rem;
-    font-size: 5rem;
-}
-.details{
-    display: flex;
-    gap: 5rem;
-    margin-top: 3rem;
-}
-.forecast-details{
-    margin-top: 15rem;
-    position: relative;
-    align-items: center;
     width: 100%;
-    min-width: 0;
+    height: 70vh;
     display: flex;
     flex-direction: column;
-    gap: 5rem;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.5s ease-in-out;
+}
+.hero .current-temperature{
+    font-size: 5rem;
+}
+.hero .current-details{
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    justify-content: center;
+    padding: 0.5rem 2.5rem;
+    width: 75%;
+    font-size: 1.5rem;
+    margin-top: 1rem;
+}
+.hero .current-details p{
+    display: flex;
+    gap: 0.25rem;
+    vertical-align: middle;
+}
+.hero.is-collapsed{
+    justify-content: unset;
+    align-items: unset;
+    top: 5vh;
+    flex-direction: row;
+    height: 20vh;
+    padding: 0 5rem;
+    gap: 2rem;
+}
+.hero.is-collapsed .current-temperature{
+    font-size: 4rem;
+    margin-top: -0.5rem;
+}
+.hero.is-collapsed .current-details{
+    flex-direction: column;
+    gap: 0.25rem;
+    justify-content: center;
+    font-size: 1.2rem;
+    margin-top: -3rem;
+    padding: 0.5rem;
+    width: unset;
+}
+.forecast-warp{
+    position: sticky;
+    top: 25vh;
+    width: 100%;height: 75vh;
+    max-height: 85vh;
+    border: 3px solid #111;
+    padding-top: 2rem;
+    border-radius: 30px 30px 0 0;
+    background-color: antiquewhite;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
 }
 .hourly-forecast,
 .weekly-forecast{
@@ -318,4 +377,10 @@ nav{
 .aq-container h4,
 .mw-container h4{
     padding: 1rem 2rem;
+}
+
+.footer{
+    margin-top: 1rem;
+    padding: 1rem;
+    text-align: center;
 }
