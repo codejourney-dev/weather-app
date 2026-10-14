@@ -1,8 +1,8 @@
 import { useEffect,useRef } from "react";
+import {getWeatherIcon, getConditionLabel } from "../../utils/weather";
 
-function HourlyForecast() {
- const sliderRef = useRef(null);
-
+function HourlyForecast({hourlyData}) {
+  const sliderRef = useRef(null);
   const isDown = useRef(false);
   const startX = useRef(0);
   const scrollLeft = useRef(0);
@@ -46,29 +46,31 @@ function HourlyForecast() {
   };
 
 
-useEffect(() => {
-  const slider = sliderRef.current;
+  useEffect(() => {
+    const slider = sliderRef.current;
 
-  if (!slider) return;
+    if (!slider) return;
 
-  const handleWheel = (e) => {
-    const maxScroll = slider.scrollWidth - slider.clientWidth;
-    // if haven't horizontal scroll
-    if (maxScroll <= 0) return;
-    e.preventDefault();
-    e.stopPropagation();
-    slider.scrollLeft += e.deltaY;
-  };
+    const handleWheel = (e) => {
+      const maxScroll = slider.scrollWidth - slider.clientWidth;
+      // if haven't horizontal scroll
+      if (maxScroll <= 0) return;
+      e.preventDefault();
+      e.stopPropagation();
+      slider.scrollLeft += e.deltaY;
+    };
 
-  slider.addEventListener("wheel", handleWheel, {
-    passive: false,
+    slider.addEventListener("wheel", handleWheel, {
+      passive: false,
+    });
+
+    return () => {
+      slider.removeEventListener("wheel", handleWheel);
+    };
+  }, []);
+  hourlyData && hourlyData.map((data, index)=>{
+    console.log("index:", index, data)
   });
-
-  return () => {
-    slider.removeEventListener("wheel", handleWheel);
-  };
-}, []);
-
   return (
     <section
         ref={sliderRef}
@@ -79,175 +81,30 @@ useEffect(() => {
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove} 
     >
-        <div className="hf-card card">
-          <p className="hour">00:00</p>
-          <span className="forecast-condition">Sunny</span>
-          <h3 className="temperature">19</h3>
-          <p className="humidity">38%</p>
-          <p className="wind-speed">2.7 km/h</p>
+      {hourlyData && hourlyData.map((data, index)=>(
+        <div className="hf-card card" key={index}>
+          <p className="hour">
+            {data.time}
+          </p>
+          <div className="forecast-condition">
+            <span>
+              {getWeatherIcon(data.weatherCode)}
+            </span>
+            <span>
+              {getConditionLabel(data.weatherCode)}
+            </span>
+          </div>
+          <h3 className="temperature">
+            {data.temp}
+          </h3>
+          <p className="humidity">
+            {data.humidity}%
+          </p>
+          <p className="wind-speed">
+            {data.wind}km/h
+          </p>
         </div>
-
-        <div className="hf-card card">
-          <p className="hour">01:00</p>
-          <span className="forecast-condition">Sunny</span>
-          <h3 className="temperature">18</h3>
-          <p className="humidity">40%</p>
-          <p className="wind-speed">2.5 km/h</p>
-        </div>
-        <div className="hf-card card">
-          <p className="hour">02:00</p>
-          <span className="forecast-condition">Sunny</span>
-          <h3 className="temperature">18</h3>
-          <p className="humidity">40%</p>
-          <p className="wind-speed">2.5 km/h</p>
-        </div>
-        <div className="hf-card card">
-          <p className="hour">03:00</p>
-          <span className="forecast-condition">Sunny</span>
-          <h3 className="temperature">18</h3>
-          <p className="humidity">40%</p>
-          <p className="wind-speed">2.5 km/h</p>
-        </div>
-        <div className="hf-card card">
-          <p className="hour">04:00</p>
-          <span className="forecast-condition">Sunny</span>
-          <h3 className="temperature">18</h3>
-          <p className="humidity">40%</p>
-          <p className="wind-speed">2.5 km/h</p>
-        </div>
-        <div className="hf-card card">
-          <p className="hour">05:00</p>
-          <span className="forecast-condition">Sunny</span>
-          <h3 className="temperature">18</h3>
-          <p className="humidity">40%</p>
-          <p className="wind-speed">2.5 km/h</p>
-        </div>
-        <div className="hf-card card">
-          <p className="hour">06:00</p>
-          <span className="forecast-condition">Sunny</span>
-          <h3 className="temperature">18</h3>
-          <p className="humidity">40%</p>
-          <p className="wind-speed">2.5 km/h</p>
-        </div>
-        <div className="hf-card card">
-          <p className="hour">07:00</p>
-          <span className="forecast-condition">Sunny</span>
-          <h3 className="temperature">18</h3>
-          <p className="humidity">40%</p>
-          <p className="wind-speed">2.5 km/h</p>
-        </div>
-        <div className="hf-card card">
-          <p className="hour">08:00</p>
-          <span className="forecast-condition">Sunny</span>
-          <h3 className="temperature">18</h3>
-          <p className="humidity">40%</p>
-          <p className="wind-speed">2.5 km/h</p>
-        </div>
-        <div className="hf-card card">
-          <p className="hour">09:00</p>
-          <span className="forecast-condition">Sunny</span>
-          <h3 className="temperature">18</h3>
-          <p className="humidity">40%</p>
-          <p className="wind-speed">2.5 km/h</p>
-        </div>
-        <div className="hf-card card">
-          <p className="hour">10:00</p>
-          <span className="forecast-condition">Sunny</span>
-          <h3 className="temperature">18</h3>
-          <p className="humidity">40%</p>
-          <p className="wind-speed">2.5 km/h</p>
-        </div>
-        <div className="hf-card card">
-          <p className="hour">11:00</p>
-          <span className="forecast-condition">Sunny</span>
-          <h3 className="temperature">18</h3>
-          <p className="humidity">40%</p>
-          <p className="wind-speed">2.5 km/h</p>
-        </div>
-        <div className="hf-card card">
-          <p className="hour">12:00</p>
-          <span className="forecast-condition">Sunny</span>
-          <h3 className="temperature">18</h3>
-          <p className="humidity">40%</p>
-          <p className="wind-speed">2.5 km/h</p>
-        </div>
-        <div className="hf-card card">
-          <p className="hour">13:00</p>
-          <span className="forecast-condition">Sunny</span>
-          <h3 className="temperature">18</h3>
-          <p className="humidity">40%</p>
-          <p className="wind-speed">2.5 km/h</p>
-        </div>
-        <div className="hf-card card">
-          <p className="hour">14:00</p>
-          <span className="forecast-condition">Sunny</span>
-          <h3 className="temperature">18</h3>
-          <p className="humidity">40%</p>
-          <p className="wind-speed">2.5 km/h</p>
-        </div>
-        <div className="hf-card card">
-          <p className="hour">15:00</p>
-          <span className="forecast-condition">Sunny</span>
-          <h3 className="temperature">18</h3>
-          <p className="humidity">40%</p>
-          <p className="wind-speed">2.5 km/h</p>
-        </div>
-        <div className="hf-card card">
-          <p className="hour">16:00</p>
-          <span className="forecast-condition">Sunny</span>
-          <h3 className="temperature">18</h3>
-          <p className="humidity">40%</p>
-          <p className="wind-speed">2.5 km/h</p>
-        </div>
-        <div className="hf-card card">
-          <p className="hour">17:00</p>
-          <span className="forecast-condition">Sunny</span>
-          <h3 className="temperature">18</h3>
-          <p className="humidity">40%</p>
-          <p className="wind-speed">2.5 km/h</p>
-        </div>
-        <div className="hf-card card">
-          <p className="hour">18:00</p>
-          <span className="forecast-condition">Sunny</span>
-          <h3 className="temperature">18</h3>
-          <p className="humidity">40%</p>
-          <p className="wind-speed">2.5 km/h</p>
-        </div>
-        <div className="hf-card card">
-          <p className="hour">19:00</p>
-          <span className="forecast-condition">Sunny</span>
-          <h3 className="temperature">18</h3>
-          <p className="humidity">40%</p>
-          <p className="wind-speed">2.5 km/h</p>
-        </div>
-        <div className="hf-card card">
-          <p className="hour">20:00</p>
-          <span className="forecast-condition">Sunny</span>
-          <h3 className="temperature">18</h3>
-          <p className="humidity">40%</p>
-          <p className="wind-speed">2.5 km/h</p>
-        </div>
-        <div className="hf-card card">
-          <p className="hour">21:00</p>
-          <span className="forecast-condition">Sunny</span>
-          <h3 className="temperature">18</h3>
-          <p className="humidity">40%</p>
-          <p className="wind-speed">2.5 km/h</p>
-        </div>
-        <div className="hf-card card">
-          <p className="hour">22:00</p>
-          <span className="forecast-condition">Sunny</span>
-          <h3 className="temperature">18</h3>
-          <p className="humidity">40%</p>
-          <p className="wind-speed">2.5 km/h</p>
-        </div>
-        <div className="hf-card card">
-          <p className="hour">23:00</p>
-          <span className="forecast-condition">Sunny</span>
-          <h3 className="temperature">18</h3>
-          <p className="humidity">40%</p>
-          <p className="wind-speed">2.5 km/h</p>
-        </div>
+      ))}
     </section>
   );
 }

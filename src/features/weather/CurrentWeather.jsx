@@ -1,15 +1,42 @@
-import {Droplets,Wind,Sun,ArrowUpDown } from 'lucide-react';
-function CurrentWeather(){
+import {Droplets,Wind,ArrowUpDown } from 'lucide-react';
+import {getWeatherIcon, getConditionLabel } from "../../utils/weather";
+
+function CurrentWeather({weatherData}){
     return(
         <section className="hero">
             <div className="current-temperature">
-                <h1>18°C</h1>
+                <h1>{weatherData && (weatherData.temperature)}°C</h1>
             </div>
             <div className="current-details">
-                <div className="condition"><p><Sun />sunny</p></div>
-                <div className="minmax-temp"><p><ArrowUpDown />24/16°C</p></div>
-                <div className="humidity"><p><Droplets />38%</p></div>
-                <div className="wind"><p><Wind />2.7km/h</p></div>
+                <div className="condition">
+                    <p>
+                        <span>
+                            {weatherData && getWeatherIcon(weatherData.weatherCode)}
+                        </span>
+                        <span>
+                            {weatherData && getConditionLabel(weatherData.weatherCode)}
+                        </span>
+                    </p>
+                </div>
+                <div className="minmax-temp">
+                    <p>
+                        <ArrowUpDown />
+                        {weatherData && (weatherData.minTemp)}/
+                        {weatherData && (weatherData.maxTemp)}°C
+                    </p>
+                </div>
+                <div className="humidity">
+                    <p>
+                        <Droplets />
+                        {weatherData && (weatherData.humidity)}
+                    </p>
+                </div>
+                <div className="wind">
+                    <p>
+                        <Wind />
+                        {weatherData && (weatherData.windSpeed)}km/h
+                    </p>
+                </div>
             </div>
         </section>
     )

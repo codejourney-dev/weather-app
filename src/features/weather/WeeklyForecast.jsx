@@ -1,6 +1,9 @@
 import { useEffect, useRef } from "react";
+import {getWeatherIcon, getConditionLabel } from "../../utils/weather";
 
-function WeeklyForecast() {
+function WeeklyForecast({forecastData}) {
+  
+
   const sliderRef = useRef(null);
 
   const isDown = useRef(false);
@@ -79,48 +82,20 @@ useEffect(() => {
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
     >
-        <div className="wf-card card">
-            <h4>Monday</h4>
-            <span>Sunny</span>
-            <h2>36/26</h2>
-            <p>clear sky</p>
+      {forecastData && forecastData.map((data, index)=>(
+        <div className="wf-card card" key={index}>
+            <h4>
+              {data.day}
+            </h4>
+            <span>
+              {getWeatherIcon(data.weatherCode)}
+            </span>
+            <span>
+              {getConditionLabel(data.weatherCode)}
+            </span>
+            <h3>{data.minTemp}/{data.maxTemp}°C</h3>
         </div>
-        <div className="wf-card card">
-            <h4>Tuesday</h4>
-            <span>Sunny</span>
-            <h2>36/26</h2>
-            <p>clear sky</p>
-        </div>
-        <div className="wf-card card">
-            <h4>Wednesday</h4>
-            <span>Sunny</span>
-            <h2>36/26</h2>
-            <p>clear sky</p>
-        </div>
-        <div className="wf-card card">
-            <h4>Thursday</h4>
-            <span>Sunny</span>
-            <h2>36/26</h2>
-            <p>clear sky</p>
-        </div>
-        <div className="wf-card card">
-            <h4>Friday</h4>
-            <span>Sunny</span>
-            <h2>36/26</h2>
-            <p>clear sky</p>
-        </div>
-        <div className="wf-card card">
-            <h4>Saturday</h4>
-            <span>Sunny</span>
-            <h2>36/26</h2>
-            <p>clear sky</p>
-        </div>
-        <div className="wf-card card">
-            <h4>Sunday</h4>
-            <span>Sunny</span>
-            <h2>36/26</h2>
-            <p>clear sky</p>
-        </div>
+      ))}
     </section>
   );
 }
