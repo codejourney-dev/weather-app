@@ -27,11 +27,8 @@ The project is currently in its UI prototype stage. The initial version is built
 - [x] Implement forecast carousels
 - [x] Build weather information sections
 - [x] Implement location management sections
-- [ ] Rebuild with React
-- [ ] Add TypeScript
-- [ ] Add Tailwind CSS
-- [ ] Integrate Open-Meteo API
-- [ ] Add location search and geolocation
+- [x] Rebuild with React
+- [x] Integrate Open-Meteo API
 - [ ] Add Persian / English support
 - [ ] Add weather charts
 - [ ] Add loading and error states
@@ -48,8 +45,6 @@ The project is currently in its UI prototype stage. The initial version is built
 ### Planned
 
 - React
-- TypeScript
-- Tailwind CSS
 - Open-Meteo API
 
 ---
@@ -78,4 +73,4 @@ Weather data will be provided by **Open-Meteo** in the functional version.
 
 🚧 **In Development**
 
-The current version represents the initial UI prototype. The next major stage is rebuilding the application with React, Tailwind CSS, TypeScript, and Open-Meteo.
+The current version represents the initial UI prototype. The next major stage is rebuilding the application with React and Open-Meteo.
