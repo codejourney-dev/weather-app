@@ -1,6 +1,3 @@
-/* UI theme styles. Atmospheric backgrounds and animated effects are separate layers. */
-
-/* UI theme styles only. Atmospheric backgrounds live in background-layer.css. */
 .app-container {
   position: relative;
   z-index: 1;

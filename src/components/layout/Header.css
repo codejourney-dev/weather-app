@@ -6,7 +6,6 @@
   --panel-shadow: 0 16px 40px rgba(20, 30, 65, 0.16);
   --panel-blur: 24px;
 }
-
 #root[data-theme="dark"]{
   --panel-surface: rgba(15, 23, 42, 0.48);
   --panel-bg-mobile: rgba(15, 23, 42, 1);
@@ -14,7 +13,6 @@
   --panel-border-selected: rgba(255, 255, 255, 1);
   --panel-shadow: 0 16px 40px rgba(0, 0, 0, 0.24);
 }
-/* ===== Header ===== */
 .app-header {
   position: sticky;
   top: 12px;
@@ -36,8 +34,6 @@
   -webkit-backdrop-filter: blur(20px) saturate(150%);
   box-shadow: var(--panel-shadow);
 }
-
-
 .header-brand {
   flex-shrink: 0;
 }
@@ -50,8 +46,6 @@
   font-weight: 750;
   letter-spacing: -0.5px;
 }
-
-/* ===== Navigation ===== */
 
 .header-nav {
   display: flex;
@@ -79,8 +73,6 @@
 .header-nav a.active {
   font-weight: 650;
 }
-
-/* ===== Actions ===== */
 
 .header-actions {
   display: flex;
@@ -174,8 +166,6 @@
   display: none;
 }
 
-/* ===== Location panel ===== */
-
 .location-panel-shell {
   position: absolute;
   top: calc(100% + 8px);
@@ -209,7 +199,6 @@
   transform: translateY(0);
 }
 
-/* Remove old sizing and positioning from Location itself */
 .location-panel-shell .location-mgt {
   position: static;
   width: 100%;
@@ -246,20 +235,17 @@
     cursor: pointer;
     background-color: rgb(255, 238, 217);
 }
-/* Keep the inner content scrollable */
 .location-panel-shell .locations {
   max-height: min(300px, 45vh);
   overflow-y: auto;
 }
 
-/* Settings dropdown anchor */
 .settings-dropdown {
   position: relative;
   display: flex;
   align-items: center;
 }
 
-/* Desktop dropdown */
 .settings-panel-shell {
   position: absolute;
   top: calc(100% + 10px);
@@ -349,7 +335,6 @@
   min-width: 0;
 }
 
-/* Smooth transition for the city trigger */
 .city-trigger {
   transition:
     opacity 160ms ease,
@@ -358,12 +343,10 @@
     border-color 180ms ease;
 }
 
-/* Expanded search panel */
 .add-city.is-open {
   z-index: 1200;
 }
 
-/* Location panel directly below the trigger */
 .location-panel-shell {
   position: absolute;
   top: calc(100% + 8px);
@@ -373,7 +356,6 @@
   box-sizing: border-box;
 }
 
-/* Keep the search input within the panel */
 .location-panel-shell .location-mgt {
   width: 100%;
   min-width: 0;
@@ -400,12 +382,9 @@
   cursor: pointer;
 }
 
-
-/* Close buttons: hidden on desktop */
 .panel-close-button {
   display: none;
 }
-/* ===== Tablet ===== */
 @media (max-width: 1050px) {
   .app-header {
     gap: 12px;
@@ -430,7 +409,6 @@
   }
 }
 
-/* ===== Mobile navigation ===== */
 @media (max-width: 760px) {
   .app-header {
     top: 6px;
@@ -670,8 +648,6 @@
     flex: 1;
     min-width: 0;
   }
-
-  /* Mobile panel is full-screen in the current design */
   .location-panel-shell {
     position: fixed;
     inset: 0;
@@ -711,9 +687,6 @@
     transition-duration: 0.01ms !important;
   }
 }
-  position: relative;
-  width: 100%;
-}
 
 .city-search-input {
   width: 100%;
@@ -729,9 +702,8 @@
 
   z-index: 100;
   padding: 12px;
-  border-radius: 24px; */
-
-/* Final shared panel treatment: header, location and settings use the same glass tokens. */
+  border-radius: 24px; 
+}
 .app-header,
 .location-panel-shell,
 .settings-panel-shell,
@@ -783,9 +755,6 @@
     border-radius: 0;
   }
 }
-
-
-/* Mobile overlays must be fully opaque so weather effects never show through menus. */
 @media (max-width: 760px) {
   .app-container {
     --mobile-panel-surface: #f2f5fc;
@@ -802,8 +771,7 @@
   }
 
   .location-panel-shell .location-mgt {
-    background: transparent; /* The opaque shell supplies the panel background. */
-  }
+    background: transparent; 
 
   .settings-panel-shell .setting-header {
     background: var(--mobile-panel-surface);

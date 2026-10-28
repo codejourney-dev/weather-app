@@ -1,4 +1,3 @@
-/* Shared glass tokens; the app root switches these for light/dark conditions. */
 :root {
   --glass-bg: var(--panel-surface, rgba(255, 255, 255, 0.20));
   --glass-border: var(--panel-border, rgba(255, 255, 255, 0.32));
@@ -16,7 +15,6 @@ html{
   box-sizing: border-box;
 }
 body{
-  /* overflow-x: hidden; */
   margin: 0;
   scroll-behavior: smooth;
 }
@@ -24,7 +22,6 @@ body{
     display: none;
 }
 
-/* Shared glass effect */
 .glass {
   background: var(--glass-bg);
   -webkit-backdrop-filter: blur(var(--panel-blur, 24px)) saturate(160%);

@@ -5,8 +5,6 @@
   --panel-border: rgba(255, 255, 255, 0.32);
   --panel-blur: 24px;
 }
-
-/* Shared glass tokens are scoped to the actual UI root (not the background layer). */
 .app-container {
   --panel-surface: rgba(255, 255, 255, 0.20);
   --panel-border: rgba(255, 255, 255, 0.32);
@@ -48,7 +46,6 @@ button{
     border-radius: 16px;
     box-shadow: 0 8px 24px rgba(20, 30, 65, 0.08);
 }
-/* ---------- ******************** ---------- */
 .app-warp{
     display: grid;
     position: relative;
@@ -57,7 +54,6 @@ button{
     width: 90%;
     margin: 0 auto;
 }
-/* ---------- Setting Menu Section ---------- */
 .change-lang,
 .change-units{
     padding: 1.25rem 2rem;
@@ -78,14 +74,10 @@ button{
 .setting-btns button.is-selected{
     border: 1px solid var(--panel-border-selected);
 }
-
-/* ---------- Main Section ---------- */
 .forecast{
     overflow-y: scroll;
     scrollbar-width: none;
 }
-
-/* ---------- Showing Forecast Section ---------- */
 .hero {
     position: relative;
     isolation: isolate;
@@ -97,8 +89,6 @@ button{
     padding: clamp(4.5rem, 11vh, 8rem) clamp(1rem, 4vw, 3rem) 2.5rem;
     gap: clamp(1rem, 3vh, 2rem);
 }
-
-/* Keep a deliberate open sky area so the atmospheric effects remain visible. */
 .hero .current-face {
     display: flex;
     align-items: center;
@@ -247,7 +237,6 @@ button{
     flex: 0 0 350px;
     min-height: 300px;
 }
-/* ---------- Weather Details Section ---------- */
 .weather-details,
 .air-quality,
 .marine-weather{
@@ -282,7 +271,6 @@ button{
 .mw-container h4{
     padding: 1rem 2rem;
 }
-
 .footer{
     position: static;
     bottom: 0 !important;

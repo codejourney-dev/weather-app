@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Routes, Route } from "react-router-dom";
 import './App.css';
 import "./theme/theme.css";
-import "./theme/effects.css";
 import Header from "./components/layout/Header";
 import { useLanguage } from "./context/LanguageContext";
 import WeatherWarp from "./features/weather/WeatherWarp";
