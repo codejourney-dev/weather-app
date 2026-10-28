@@ -1,76 +1,128 @@
 # Weather App
 
-A responsive weather application built as a frontend development project.
-
-The project is currently in its UI prototype stage. The initial version is built with HTML, CSS, and JavaScript. The next stage will rebuild the application with React, TypeScript, and Tailwind CSS and connect it to the Open-Meteo API.
-
-> The visual design is still subject to change during development.
+A responsive weather application built with **React** and the
+**Open-Meteo API**, featuring weather forecasts, location management,
+and a customizable interface.
 
 ## Features
 
-- Current weather interface
-- Hourly forecast carousel
-- Weekly forecast carousel
-- Weather details
-- Air quality
-- Marine weather
-- Historical weather
-- Location management
-- Settings
-- Responsive layout
-- Mouse and touch interactions
+-   Current weather conditions
+-   Hourly forecast carousel
+-   7-day weather forecast carousel
+-   Detailed weather information
+-   Air quality information
+-   Marine weather information
+-   Historical weather section
+-   Search and manage locations
+-   Persian and English interface
+-   Responsive layout for desktop and mobile
+-   Mouse, touch, and carousel interactions
+-   Weather-dependent backgrounds, illustrations, and visual effects
+-   Settings and browser-based persistence with `localStorage`
 
-## Roadmap
-
-- [x] Build the initial UI prototype
-- [x] Create responsive layouts
-- [x] Implement forecast carousels
-- [x] Build weather information sections
-- [x] Implement location management sections
-- [x] Rebuild with React
-- [x] Integrate Open-Meteo API
-- [ ] Add Persian / English support
-- [ ] Add weather charts
-- [ ] Add loading and error states
+> Some weather data and features depend on the availability of the
+> relevant Open-Meteo API endpoints.
 
 ## Tech Stack
 
-### Current
-
-- HTML
-- CSS
-- JavaScript
-- Git
-
-### Planned
-
-- React
-- Open-Meteo API
-
----
-
-## Project Goal
-
-The main goal of this project is not only to build a weather application, but to use it as the first step in a structured development journey.
-
-The project starts with a static UI built with Vanilla JavaScript and gradually evolves into a functional React application.
-
-The larger learning path is:
-
-**Vanilla JavaScript → React → Full-Stack Development**
-
----
+-   **React**
+-   **JavaScript (JSX)**
+-   **CSS**
+-   **Open-Meteo API**
+-   **Git and GitHub**
 
 ## API
 
-Weather data will be provided by **Open-Meteo** in the functional version.
+Weather and geocoding data are provided by
+[Open-Meteo](https://open-meteo.com/).
 
-- [Open-Meteo](https://open-meteo.com/)
+-   [Open-Meteo Weather API](https://open-meteo.com/en/docs)
+-   [Open-Meteo Geocoding
+    API](https://open-meteo.com/en/docs/geocoding-api)
 
----
+## Getting Started
+
+### Prerequisites
+
+-   [Node.js](https://nodejs.org/) and npm
+-   Git (optional, for cloning the repository)
+
+### Installation
+
+1.  Clone the repository:
+
+    ``` bash
+    git clone <repository-url>
+    ```
+
+2.  Move into the project directory (and into the frontend directory if
+    your `package.json` is there):
+
+    ``` bash
+    cd <project-directory>
+    ```
+
+3.  Install dependencies:
+
+    ``` bash
+    npm install
+    ```
+
+4.  Start the development server:
+
+    ``` bash
+    npm run dev
+    ```
+
+    If the project uses a different setup, check the available scripts
+    in `package.json`.
+
+### Production Build
+
+To create a production build:
+
+``` bash
+npm run build
+```
+
+For a Vite project, the production files are typically generated in the
+`dist` directory.
+
+## Language Support
+
+The interface supports **Persian** and **English**. The language setting
+can be changed in the application. Some location names may depend on the
+language returned by the geocoding service.
+
+## Project Structure
+
+The exact structure may change as the project evolves. The application
+is organized around reusable UI and weather-related components, with
+styles and API/data logic separated where appropriate.
+
+## Deployment
+
+The app can be deployed to a static hosting platform such as:
+
+-   [Netlify](https://www.netlify.com/)
+-   [Cloudflare Pages](https://pages.cloudflare.com/)
+
+Both offer free hosting options and a platform-provided subdomain, so
+purchasing a custom domain is not required. Connect the GitHub
+repository and configure the build command and output directory
+according to the project's setup.
+
+## Project Goal
+
+This project began as a weather UI prototype and evolved into a
+functional React application connected to a real weather API. It is also
+part of a broader learning journey in frontend development, from Vanilla
+JavaScript to React and eventually full-stack development.
 
 ## Status
 
-🚧 **In Development**
+**Completed initial release --- ongoing improvements are possible.**
 
-The current version represents the initial UI prototype. The next major stage is rebuilding the application with React and Open-Meteo.
+Future improvements may include additional weather charts, refinements
+to loading and error states, accessibility improvements, and further UI
+polish.
