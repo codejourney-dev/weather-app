@@ -1,0 +1,63 @@
+.aq-container .title{
+    padding: 1rem;
+    margin: 0.5rem;
+    font-size: 1.25rem;
+}
+.aq-container ul{
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+}
+.air-carousel {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  cursor: grab;
+  user-select: none;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+}
+
+.air-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.air-carousel.dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
+}
+
+.air-carousel > .aq-card {
+    font-size: 1.5rem;
+    display: grid;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    flex: 0 0 350px;
+    min-height: 300px;
+}
+.aq-time{
+    justify-self: center;
+}
+
+@media (max-width: 1200px) {
+    .aq-container ul{
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+@media (max-width: 900px) {
+    .aq-container ul{
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+@media (max-width: 650px) {
+    .aq-container ul{
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 450px) {
+    .aq-container ul{
+        grid-template-columns: repeat(1, 1fr);
+    }
+}

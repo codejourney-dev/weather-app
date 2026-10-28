@@ -1,3 +1,10 @@
+/* Shared glass tokens; the app root switches these for light/dark conditions. */
+:root {
+  --glass-bg: var(--panel-surface, rgba(255, 255, 255, 0.20));
+  --glass-border: var(--panel-border, rgba(255, 255, 255, 0.32));
+  --glass-shadow: var(--panel-shadow, 0 16px 40px rgba(20, 30, 65, 0.16));
+}
+
 html{
   font-family: sans-serif;
   overflow-x: hidden;
@@ -9,10 +16,24 @@ html{
   box-sizing: border-box;
 }
 body{
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
   margin: 0;
   scroll-behavior: smooth;
 }
 .hidden{
     display: none;
+}
+
+/* Shared glass effect */
+.glass {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(var(--panel-blur, 24px)) saturate(160%);
+  backdrop-filter: blur(var(--panel-blur, 24px)) saturate(160%);
+  border: 1px solid var(--glass-border);
+  border-radius: 22px;
+  box-shadow: var(--glass-shadow);
+  transition:
+    background 250ms ease,
+    border-color 250ms ease,
+    box-shadow 250ms ease;
 }

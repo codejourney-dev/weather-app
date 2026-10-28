@@ -1,110 +1,176 @@
 import { useEffect } from 'react';
-import Footer from "../../components/layout/Footer";
-import AirQuality from "./AirQuality";
-import MarineWeather from "./MarineWeather";
+import { useLocation } from "react-router-dom";
 import CurrentWeather from "./CurrentWeather";
 import HourlyForecast from "./HourlyForecast";
 import WeeklyForecast from "./WeeklyForecast";
-import WeatherDetails from "./WeatherDetails";
-import HistoricalWeather from "./HistoricalWeather";
+import { useLanguage } from "../../context/LanguageContext";
+import { fetchOpenMeteoWeather } from "../../services/openMeteo";
 
-function WeatherWarp({data, setData, activeCity, weatherData, setWeatherData,forecastData, setForeCastData, hourlyData, setHourlyData}){
+
+function WeatherWarp({
+    data, setData, 
+    activeCity, 
+    weatherData, setWeatherData,
+    forecastData, setForeCastData,
+    hourlyData, setHourlyData, units,
+}){
+    const { language } = useLanguage();
+    const location = useLocation();
+    const showWeather = location.pathname === "/";
+
+    // fetching weather data
     useEffect(()=>{
-        if(!activeCity) return;
+        if (!activeCity) {
+            setData(null);
+            return undefined;
+        }
+
+        const city = activeCity;
+        const controller = new AbortController();
+        setData(null);
 
         const fetchWeatherData = async () => {
-            const {latitude, longitude} = activeCity;
-
             try {
-                //call api 
-
-                const baseUrl = "https://api.open-meteo.com/v1/forecast";
-                // define the query parameters
-                const params = new URLSearchParams({
-                latitude: latitude,
-                longitude: longitude,
-                current_weather: "true",
-                daily: "temperature_2m_max,temperature_2m_min,weather_code",
-                hourly: "temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code",
-                timezone: "auto",
+                const weatherJson = await fetchOpenMeteoWeather({
+                    latitude: city.latitude,
+                    longitude: city.longitude,
+                    signal: controller.signal,
                 });
-
-                //full url
-                const url = `${baseUrl}?${params.toString()}`;
-
-                const response = await fetch(url);
-
-                const weatherJson = await response.json();
-
-                setData({...weatherJson, location: activeCity});
-                
+                setData({ ...weatherJson, location: city });
                 
             } catch (error) {
-                console.log("Error fetching weather data:", error);
+                if (error.name === "AbortError") return;
+
+                console.error("Open-Meteo weather request failed:", error);
+                setData(null);
             }
         }
         fetchWeatherData();
+        return () => controller.abort();
     }, [activeCity, setData]);
     //transform & store weather data
     useEffect(()=>{
-        if(!data || !data.location) return;
+        if (!showWeather || !data?.location || !data.current || !data.daily || !data.hourly) {
+            setWeatherData(null);
+            setForeCastData(null);
+            setHourlyData(null);
+            // setWeatherDetails(null);
+            return;
+        }
         
-        const {location, current_weather, daily, hourly} = data;
+        
+        const {location, current, daily, hourly} = data;
+        const currentHour = current.time?.slice(0, 13);
+        const hourlyTimes = hourly.time ?? [];
+        let startIndex = hourlyTimes.findIndex((time) => time.slice(0, 13) === currentHour);
+        // Fall back to the first future hour if the current hour is absent from the hourly array.
+        if (startIndex < 0) {
+            startIndex = hourlyTimes.findIndex((time) => time >= currentHour);
+        }
+        if (startIndex < 0 && hourlyTimes.length > 0) startIndex = hourlyTimes.length - 1;
+        // transform current data
         const currentWeather = {
             city: location.name,
             country: location.country,
-            temperature: current_weather.temperature,
-            feelsLike: current_weather.apparent_temperature || current_weather.temperature,
-            humidity: hourly.relative_humidity_2m[0],
-            windSpeed: current_weather.windspeed,
-            weatherCode: current_weather.weathercode,
-            minTemp: daily.temperature_2m_min[0],
-            maxTemp: daily.temperature_2m_max[0],
+            temperature: current.temperature_2m,
+            feelsLike: current.apparent_temperature ?? current.temperature_2m,
+            humidity: current.relative_humidity_2m,
+            windSpeed: current.wind_speed_10m,
+            windDirection: current.wind_direction_10m,
+            windGusts: current.wind_gusts_10m,
+            weatherCode: current.weather_code,
+            cloudCover: current.cloud_cover,
+            precipitation: current.precipitation,
+            rain: current.rain,
+            showers: current.showers,
+            snowfall: current.snowfall,
+            pressure: current.surface_pressure,
+            pressureMSL: current.pressure_msl,
+            isDay: current.is_day,
+            is_day: current.is_day,
+            time: current.time,
+            sunrise: daily.sunrise?.[0],
+            sunset: daily.sunset?.[0],
         }
         setWeatherData(currentWeather);
-
-        const forecast = daily.time.slice(1,7).map((date, index)=>({
-            day: new Date(date).toLocaleDateString(undefined, {weekday: "long"}),
-            minTemp: daily.temperature_2m_min[index+1],
-            maxTemp: daily.temperature_2m_max[index+1],
-            weatherCode: daily.weather_code[index+1],
-        }));
+        // transform weekly data
+        const forecast = (daily.time ?? []).slice(1, 7).map((date, index) => {
+            const dayIndex = index + 1;
+            return {
+                date,
+                day: new Date(`${date}T12:00:00`).toLocaleDateString(undefined, { weekday: "long" }),
+                minTemp: daily.temperature_2m_min?.[dayIndex],
+                maxTemp: daily.temperature_2m_max?.[dayIndex],
+                minFeelsLike: daily.apparent_temperature_min?.[dayIndex],
+                maxFeelsLike: daily.apparent_temperature_max?.[dayIndex],
+                weatherCode: daily.weather_code?.[dayIndex],
+                uvIndex: daily.uv_index_max?.[dayIndex],
+                sunrise: daily.sunrise?.[dayIndex],
+                sunset: daily.sunset?.[dayIndex],
+                precipitationSum: daily.precipitation_sum?.[dayIndex],
+                precipitationProbability: daily.precipitation_probability_max?.[dayIndex],
+                windSpeedMax: daily.wind_speed_10m_max?.[dayIndex],
+            };
+        });
         setForeCastData(forecast);
-
-        const hourlyForecast = hourly.time.slice(0, 24).map((time, index)=>({
-            time: new Date(time).toLocaleTimeString(undefined, {
-                hour: "2-digit",
-                minute: "2-digit",
-            }),
-            temp: hourly.temperature_2m[index],
-            humidity: hourly.relative_humidity_2m[index],
-            wind: hourly.wind_speed_10m[index],
-            weatherCode: hourly.weather_code[index],
-        }));
+        // transform hourly data
+        const hourlyForecast = hourly.time.slice(startIndex, startIndex + 24).map((time, index) => {
+            const actualIndex = startIndex + index;
+            return {
+                time: time.slice(0, 13) === currentHour
+                    ? (language === "en" ? "now" : "اکنون") 
+                    : new Date(`${time}:00`).toLocaleTimeString(undefined, {
+                        hour12: false,
+                        hour: "2-digit",
+                        minute: "2-digit",
+                    }),
+                timestamp: time,
+                temp: hourly.temperature_2m?.[actualIndex],
+                humidity: hourly.relative_humidity_2m?.[actualIndex],
+                dewPoint: hourly.dew_point_2m?.[actualIndex],
+                feelsLike: hourly.apparent_temperature?.[actualIndex],
+                precipitationProbability: hourly.precipitation_probability?.[actualIndex],
+                precipitation: hourly.precipitation?.[actualIndex],
+                rain: hourly.rain?.[actualIndex],
+                showers: hourly.showers?.[actualIndex],
+                snowfall: hourly.snowfall?.[actualIndex],
+                wind: hourly.wind_speed_10m?.[actualIndex],
+                windDirection: hourly.wind_direction_10m?.[actualIndex],
+                windGusts: hourly.wind_gusts_10m?.[actualIndex],
+                cloudCover: hourly.cloud_cover?.[actualIndex],
+                visibility: hourly.visibility?.[actualIndex],
+                pressure: hourly.surface_pressure?.[actualIndex],
+                weatherCode: hourly.weather_code?.[actualIndex],
+                is_day: hourly.is_day?.[actualIndex],
+                uvIndex: hourly.uv_index?.[actualIndex],
+            };
+        });
         setHourlyData(hourlyForecast);
 
-    }, [data, setWeatherData, setForeCastData, setHourlyData])
+    }, [data, setWeatherData, setForeCastData, setHourlyData,showWeather,language]);
+    if (!showWeather) {
+        return null;
+    }
     return (
-        <>
-            <CurrentWeather weatherData={weatherData} />
-            {/* forecast section */}
-            <div className="forecast-warp">
+        <div className='app-warp'>
+            <div className="app-content">
+                {/* hero section */}
+                <CurrentWeather 
+                    weatherData={weatherData} 
+                    units={units}
+                />
                 {/* hourly forecast section */}
-                <HourlyForecast hourlyData={hourlyData}/>
+                <HourlyForecast 
+                    hourlyData={hourlyData}
+                    units={units}
+                />
                 {/* weekly forecast section */}
-                <WeeklyForecast forecastData={forecastData}/>
-                {/* weather condition details */}
-                <WeatherDetails />
-                {/* air quality section*/}
-                <AirQuality />
-                {/* Marine weather section if coastal city */}
-                <MarineWeather />
-                {/* historical weather section */}
-                <HistoricalWeather />
-                {/* footer section */}
-                <Footer />
+                <WeeklyForecast 
+                    forecastData={forecastData}
+                    units={units}
+                />
             </div>
-        </>
+        </div>
     );
 }
 export default WeatherWarp;

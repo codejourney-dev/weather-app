@@ -1,12 +1,16 @@
-import { useEffect,useRef } from "react";
-import {getWeatherIcon, getConditionLabel } from "../../utils/weather";
+import { useRef } from "react";
+import WeatherIllustration from "../../components/weather-visuals/WeatherIllustration";
+import {convertTemperature, convertWindSpeed, formatValue} from "../../utils/units";
+import { getWeatherCondition } from "../../utils/weather";
 
-function HourlyForecast({hourlyData}) {
+function HourlyForecast({hourlyData, units}) {
+
+
+
   const sliderRef = useRef(null);
   const isDown = useRef(false);
   const startX = useRef(0);
   const scrollLeft = useRef(0);
-
   const handleMouseDown = (e) => {
     isDown.current = true;
 
@@ -46,33 +50,30 @@ function HourlyForecast({hourlyData}) {
   };
 
 
-  useEffect(() => {
-    const slider = sliderRef.current;
+  // useEffect(() => {
+  //   const slider = sliderRef.current;
 
-    if (!slider) return;
+  //   if (!slider) return;
 
-    const handleWheel = (e) => {
-      const maxScroll = slider.scrollWidth - slider.clientWidth;
-      // if haven't horizontal scroll
-      if (maxScroll <= 0) return;
-      e.preventDefault();
-      e.stopPropagation();
-      slider.scrollLeft += e.deltaY;
-    };
+  //   const handleWheel = (e) => {
+  //     const maxScroll = slider.scrollWidth - slider.clientWidth;
+  //     // if haven't horizontal scroll
+  //     if (maxScroll <= 0) return;
+  //     e.preventDefault();
+  //     e.stopPropagation();
+  //     slider.scrollLeft += e.deltaY;
+  //   };
 
-    slider.addEventListener("wheel", handleWheel, {
-      passive: false,
-    });
+  //   slider.addEventListener("wheel", handleWheel, {
+  //     passive: false,
+  //   });
 
-    return () => {
-      slider.removeEventListener("wheel", handleWheel);
-    };
-  }, []);
-  hourlyData && hourlyData.map((data, index)=>{
-    console.log("index:", index, data)
-  });
+  //   return () => {
+  //     slider.removeEventListener("wheel", handleWheel);
+  //   };
+  // }, []);
   return (
-    <section
+    <div
         ref={sliderRef}
         className="hourly-forecast"
         id="hourly-forecast"
@@ -81,31 +82,54 @@ function HourlyForecast({hourlyData}) {
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove} 
     >
-      {hourlyData && hourlyData.map((data, index)=>(
-        <div className="hf-card card" key={index}>
-          <p className="hour">
-            {data.time}
-          </p>
-          <div className="forecast-condition">
-            <span>
-              {getWeatherIcon(data.weatherCode)}
-            </span>
-            <span>
-              {getConditionLabel(data.weatherCode)}
-            </span>
+      {hourlyData && hourlyData.map((data, index)=>{
+        const condition = getWeatherCondition(data.weatherCode);
+        const isNight = data.is_day === 0;
+        return(
+          <div className="hf-card glass" key={index}>
+            <p className="hour">
+              {data.time}
+            </p>
+            <div className="forecast-condition">
+              <WeatherIllustration
+                width={30}
+                scale={1}
+                condition={condition}
+                theme={isNight ? "dark" : "light"}
+                className="hourly-icon"
+              />
+            </div>
+            <h3 className="temperature" dir="ltr">
+              {formatValue(
+                convertTemperature(
+                  data.temp,
+                  units.temperature
+                )
+              )}°
+              {units.temperature === "celsius" ? "C" : "F"}
+            </h3>
+            <p className="humidity">
+              {data.humidity}%
+            </p>
+            <p className="wind-speed">
+              {formatValue(
+                convertWindSpeed(
+                  data.wind,
+                  units.windSpeed
+                )
+              )}
+              {units.windSpeed === "kmh"
+                  ? " km/h"
+                  : units.windSpeed === "ms"
+                  ? " m/s"
+                  : " mph"
+              }
+            </p>
           </div>
-          <h3 className="temperature">
-            {data.temp}
-          </h3>
-          <p className="humidity">
-            {data.humidity}%
-          </p>
-          <p className="wind-speed">
-            {data.wind}km/h
-          </p>
-        </div>
-      ))}
-    </section>
+        )
+        
+      })}
+    </div>
   );
 }
 

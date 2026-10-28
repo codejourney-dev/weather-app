@@ -1,64 +1,15 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
 import {CircleX} from 'lucide-react';
-// {onCitySelect, selectedCity}
-function Location({activeCity, setActiveCity, selectedCities, setSelectedCities}){
-    //hold user input
-    const [query, setQuery] = useState("");
-    const [suggestion, setSuggestion] = useState([]);
-    
-
-    // handle input field changes
-    const handleInputChange = async (e) => {
-      const value = e.target.value;
-
-      setQuery(value);
-
-      if (value.length >= 3) {
-        try {
-          const baseUrl = "https://geocoding-api.open-meteo.com/v1/search?";
-
-          const encodedCityName = encodeURIComponent(value);
-
-          const url = `${baseUrl}name=${encodedCityName}&count=5`;
-
-          const response = await fetch(url);
-
-          const data = await response.json();
-
-          if (data.results) {
-            setSuggestion(data.results);
-          } else {
-            setSuggestion([]);
-          }
-        } catch (error) {
-          console.log("Error fetching city suggestion: ", error);
-          setSuggestion([]);
-        }
-      } else {
-        setSuggestion([]);
-      }
-    }
-
-    const handleSuggestionClick = (city) => {
-      if(selectedCities.length === 5){
-        setQuery("");
-        setSuggestion([]);
-        return selectedCities;
-      }
-      setSelectedCities((prevCities) => {
-      const alreadyExists = prevCities.some(
-        (item) => item.latitude === city.latitude && item.longitude === city.longitude
-      );
-      if (alreadyExists) {
-        return prevCities;
-      }
-
-      return [...prevCities, city];
-    });
-      setQuery("");
-      setSuggestion([]);
-    }
-
+import "./Location.css"
+function Location({
+  activeCity, 
+  setActiveCity, 
+  selectedCities, 
+  setSelectedCities, 
+  activePanel,
+  setQuery,
+  setActivePanel
+}){
     const handleRemoveCity = (cityToRemove) => {
       setSelectedCities((prevCities) => {
         if (selectedCities.length <= 1) {
@@ -80,31 +31,32 @@ function Location({activeCity, setActiveCity, selectedCities, setSelectedCities}
     };
     const handleActiveCity = (city) => {
       setActiveCity(city);
+      setQuery("");
+      setActivePanel(null);
     }
+    useEffect(() => {
+      localStorage.setItem(
+        "selectedCities",
+        JSON.stringify(selectedCities)
+      );
+    }, [selectedCities]);
+    useEffect(() => {
+      localStorage.setItem(
+        "activeCity",
+        JSON.stringify(activeCity)
+      );
+    }, [activeCity]);
     return(
-        <section className="location-mgt ">
+        <section className={`location-mgt ${activePanel=="location" ? "menu-open" : ""}`}>
           <div className="header">
-              <input 
-                type="text" 
-                value={query}
-                className='search-input card'
-                placeholder='Search for city...'
-                id='search-input'
-                onChange={handleInputChange}
-              />
-              {suggestion.length > 0 &&(
-                <ul className='suggestion-list card'>
-                  {suggestion.map((city, index)=>(
-                    <li 
-                      key={index}
-                      className='suggestion-item card'
-                      onClick={()=>handleSuggestionClick(city)}
-                    >
-                      {city.name},{city.country}
-                    </li>
-                  ))}
-                </ul>
-              )}
+            <button
+              type="button"
+              className="panel-close-button"
+              onClick={() => setActivePanel(null)}
+              aria-label="Close location panel"
+            >
+              <CircleX size={22} />
+            </button>
           </div>
           {/* city list */}
           {selectedCities.length > 0 && (
@@ -112,7 +64,7 @@ function Location({activeCity, setActiveCity, selectedCities, setSelectedCities}
               {selectedCities.map((city)=>(
                 <div 
                   key={`${city.latitude}-${city.longitude}`}
-                  className={`location card ${
+                  className={`location glass ${
                     activeCity.latitude === city.latitude &&
                     activeCity.longitude === city.longitude
                       ? "is-selected"
@@ -123,6 +75,9 @@ function Location({activeCity, setActiveCity, selectedCities, setSelectedCities}
                     <div>
                       <h4>{city.name}, {city.country}</h4>
                       <sub>{city.admin1}</sub>
+                    </div>
+                    <div>
+                      
                     </div>
                     {selectedCities.length > 1 &&(
                       <button

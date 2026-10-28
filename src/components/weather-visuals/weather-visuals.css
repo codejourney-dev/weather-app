@@ -1,0 +1,375 @@
+/* CSS/SVG weather art; no raster images are used. */
+.hero { 
+    isolation: isolate; 
+    overflow: hidden; 
+}
+.hero-weather-art {
+    position: relative;
+    z-index: 0;
+    display: flex;
+    left: 0%;
+    pointer-events: none;
+}
+.weather-scene { 
+    position: relative; 
+    overflow: hidden; 
+}
+.scene-orb { 
+    position: absolute; 
+    top: 15%; right: 15%; 
+    animation: orb-float 7s ease-in-out infinite; 
+}
+.weather-illustration { 
+    display: block; 
+    overflow: visible; 
+}
+.scene-cloud { 
+    position: absolute; 
+    filter: drop-shadow(0 12px 18px rgba(44, 71, 106, .12)); 
+}
+.scene-cloud-back { 
+    top: 32%; right: 5%; 
+    opacity: .78; 
+    transform: scale(.82); 
+}
+.scene-cloud-front { 
+    top: 42%; right: 15%; 
+    animation: cloud-float 8s ease-in-out infinite; 
+}
+.scene-precipitation { 
+    position: absolute; 
+    top: 62%; right: 23%; 
+    width: 180px; height: 90px; 
+    overflow: visible; 
+}
+/* Rain: continuous diagonal fall */
+.rain-particle {
+  animation:
+    rain-fall var(--rain-duration, 1s)
+    linear var(--rain-delay, 0s) infinite;
+  will-change: transform;
+}
+
+@keyframes rain-fall {
+  from {
+    transform: translate3d(0, -35px, 0);
+  }
+
+  to {
+    transform: translate3d(
+      var(--rain-drift, -8px),
+      var(--rain-distance, 90px),
+      0
+    );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .weather-scene .rain-drop {
+    animation: none !important;
+  }
+}
+/* Snow: downward fall with gentle lateral drift */
+.snow-particle {
+  animation:
+    snow-fall var(--snow-duration, 4s)
+    linear var(--snow-delay, 0s) infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+  will-change: transform;
+}
+
+@keyframes snow-fall {
+  0% {
+    transform: translate3d(0, -28px, 0) rotate(0deg);
+    opacity: 0;
+  }
+
+  12% {
+    opacity: 0.95;
+  }
+
+  45% {
+    transform: translate3d(
+      calc(var(--snow-drift, 6px) * 0.45),
+      24px,
+      0
+    ) rotate(80deg);
+    opacity: 0.9;
+  }
+
+  80% {
+    opacity: 0.85;
+  }
+
+  100% {
+    transform: translate3d(
+      var(--snow-drift, 6px),
+      100px,
+      0
+    ) rotate(180deg);
+    opacity: 0;
+  }
+}
+.scene-lightning { 
+    position: absolute; 
+    top: 58%; right: 46%; 
+    animation: lightning-flash 3.8s steps(1, end) infinite; 
+}
+/* .scene-fog { 
+    position: absolute; 
+    inset: 57% -5% 8%; 
+    background: repeating-linear-gradient(0deg, transparent 0 16px, rgba(255,255,255,.35) 17px 25px, transparent 26px 38px); 
+    filter: blur(8px); 
+    animation: fog-drift 9s ease-in-out infinite alternate; 
+} */
+.scene-sparkle { 
+    position: absolute; 
+    width: 4px; height: 4px; 
+    border-radius: 50%; 
+    background: rgba(255,255,255,.9); 
+    box-shadow: 0 0 12px rgba(255,255,255,.8); 
+}
+.sparkle-one { 
+    top: 26%; left: 20%; 
+} 
+.sparkle-two { 
+    top: 15%; left: 44%; 
+    transform: scale(.65); 
+} 
+.sparkle-three { 
+    top: 39%; 
+    left: 13%; 
+    transform: scale(.8); 
+}
+.scene-day.scene-clear .scene-cloud,
+.scene-day.scene-clear .scene-precipitation,
+.scene-day.scene-clear .scene-fog,
+.scene-day.scene-clear .scene-lightning { 
+    display: none; 
+}
+.scene-day.scene-clear .scene-sparkle { 
+    opacity: .2; 
+}
+.scene-night .scene-sparkle { 
+    opacity: .9; 
+}
+.scene-night .scene-cloud { 
+    filter: drop-shadow(0 12px 20px rgba(5, 12, 32, .18)); 
+}
+/* .scene-fog .scene-orb, */
+.scene-thunderstorm .scene-orb { 
+    opacity: .45; 
+}
+@keyframes orb-float { 
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); } 
+}
+@keyframes cloud-float { 
+    0%,100% { transform: translateX(0); } 
+    50% { transform: translateX(-8px); } 
+}
+@keyframes snow-drift { 
+    0%,100% { transform: translate(0,0) rotate(0); opacity: .65; } 
+    50% { transform: translate(5px,12px) rotate(45deg); opacity: 1; } 
+}
+@keyframes lightning-flash { 
+    0%, 8%, 10%, 100% { opacity: 0; } 
+    9%, 11% { opacity: 1; } 
+}
+/* @keyframes fog-drift { 
+    from { transform: translateX(-12px); opacity: .35; } 
+    to { transform: translateX(12px); opacity: .8; } 
+} */
+@media (max-width: 800px) { 
+    .hero-weather-art { 
+        width: 48%; right: -3%; opacity: .85; 
+    } 
+    .scene-orb { 
+        right: 6%; 
+        transform: scale(.8); 
+        transform-origin: top right; 
+    } 
+    .scene-cloud-front { 
+        right: 7%; 
+        transform: scale(.8); 
+        transform-origin: top right; 
+    } 
+    .scene-cloud-back { 
+        right: -8%; 
+    } 
+    .hero .current-details { 
+        position: relative; 
+        z-index: 1; 
+    } 
+}
+/* Respect the user's motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .weather-scene .snow-flake {
+    animation: none !important;
+  }
+}
+.hero-weather-art { 
+    z-index: 0; 
+}
+.hero > .current-temperature,
+.hero > .current-details { 
+    position: relative; 
+    z-index: 1; 
+}
+
+/* Hero illustration: overlap the sun/moon and foreground cloud as one icon. */
+.hero-weather-art {
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    right: 3%;
+    width: clamp(190px, 24vw, 320px);
+    height: 100%;
+    min-height: 250px;
+    pointer-events: none;
+}
+.hero-weather-art .weather-scene {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    overflow: visible;
+}
+.hero-weather-art .scene-orb {
+    z-index: 1;
+    top: 9%;
+    right: 23%;
+}
+.hero-weather-art .scene-cloud-front {
+    z-index: 2;
+    top: 24%;
+    right: 8%;
+    transform: scale(.82);
+    transform-origin: top right;
+}
+.hero-weather-art .scene-cloud-back,
+.hero-weather-art .scene-sparkle {
+    display: none;
+}
+.hero-weather-art .scene-precipitation {
+    z-index: 3;
+    top: 43%;
+    right: 13%;
+}
+.hero-weather-art .scene-lightning { z-index: 4; }
+.hero > .current-temperature,
+.hero > .current-details {
+    position: relative;
+    z-index: 1;
+}
+@media (max-width: 800px) {
+    .hero-weather-art {
+        right: 0;
+        width: 42%;
+        min-width: 145px;
+        opacity: .9;
+    }
+    .hero-weather-art .scene-orb { right: 18%; top: 10%; }
+    .hero-weather-art .scene-cloud-front {
+        right: -2%;
+        top: 25%;
+        transform: scale(.68);
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .hero-weather-art *,
+    .hero-weather-art *::before {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+/* Compact illustrations for forecast cards */
+.hourly-icon,
+.weekly-icon {
+  position: relative;
+  display: block;
+  flex: 0 0 auto;
+  overflow: visible;
+}
+
+.hourly-icon {
+  width: 44px;
+  height: 44px;
+}
+
+.weekly-icon {
+  width: 56px;
+  height: 56px;
+}
+
+/* Scale the complete scene, not just the sun/moon */
+.hourly-icon .weather-scene,
+.weekly-icon .weather-scene {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 180px;
+  height: 180px;
+  min-height: 0;
+  overflow: visible;
+  transform-origin: top right;
+  pointer-events: none;
+}
+
+.hourly-icon .weather-scene {
+  transform: scale(0.244);
+}
+
+.weekly-icon .weather-scene {
+  transform: scale(0.311);
+}
+
+/* Keep the original relative composition */
+.hourly-icon .scene-orb,
+.weekly-icon .scene-orb {
+  top: 15%;
+  right: 15%;
+  transform: none;
+}
+
+.hourly-icon .scene-cloud-front,
+.weekly-icon .scene-cloud-front {
+  top: 42%;
+  right: 15%;
+  transform: none;
+}
+
+.hourly-icon .scene-precipitation,
+.weekly-icon .scene-precipitation {
+  top: 62%;
+  right: 23%;
+  width: 180px;
+  height: 90px;
+}
+
+.hourly-icon .scene-lightning,
+.weekly-icon .scene-lightning {
+  top: 58%;
+  right: 46%;
+}
+
+
+.scene-day {
+  --rain-color: #4387B8;
+  --snow-color: #FFFFFF;
+}
+
+.scene-night {
+  --rain-color: #C5E9FF;
+  --snow-color: #FFFFFF;
+}
+
+/* Keep the effects smooth when motion is allowed */
+
+@media (prefers-reduced-motion: reduce) {
+  .weather-scene .rain-particle,
+  .weather-scene .snow-particle {
+    animation: none !important;
+  }
+}

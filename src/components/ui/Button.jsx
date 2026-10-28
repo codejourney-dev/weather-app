@@ -1,7 +1,7 @@
-function Button(Settings, toggleSetting){
+function Button(className, content){
     return(
-        <button className='setting' onClick={toggleSetting} >
-            <Settings size={32}  strokeWidth={2}/>
+        <button className={`card ${className}`}>
+            <p>{content}</p>
         </button>
     )
 }

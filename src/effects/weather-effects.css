@@ -1,0 +1,266 @@
+/* Foreground weather effects. Decorative only: never block UI interaction. */
+.weather-effects {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  pointer-events: none;
+  isolation: isolate;
+}
+
+.effect-sunlight,
+.effect-rain,
+.effect-snow,
+.effect-wind,
+.effect-lightning,
+.effect-fog {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* A soft beam of light; no image assets are used. */
+.effect-sunlight {
+  background:
+    linear-gradient(115deg, transparent 0 18%, rgb(255 245 204 / 10%) 35%, transparent 58%),
+    radial-gradient(ellipse at 8% 0%, rgb(255 249 214 / 24%), transparent 48%);
+  mix-blend-mode: screen;
+  animation: sunlight-breathe 7s ease-in-out infinite alternate;
+}
+
+.effect-rain {
+  opacity: 0.25;
+  overflow: hidden;
+}
+
+.rain-drop {
+  position: absolute;
+  top: -18%;
+  width: 1px;
+  height: 46px;
+  background: linear-gradient(transparent, rgb(232 246 255 / 75%));
+  transform: rotate(13deg);
+  animation: rain-fall 1s linear infinite;
+}
+
+.effect-snow {
+  overflow: hidden;
+}
+
+.snow-flake {
+  position: absolute;
+  top: -8%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 90%);
+  box-shadow: 0 0 8px rgb(255 255 255 / 45%);
+  animation: snow-fall 9s linear infinite;
+}
+
+.snow-flake:nth-child(3n) {
+  width: 3px;
+  height: 3px;
+}
+
+.effect-wind {
+  opacity: 0.36;
+}
+
+.wind-streak {
+  position: absolute;
+  left: -35%;
+  width: 28%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 70%), transparent);
+  animation: wind-sweep 3s ease-in-out infinite;
+}
+
+.effect-lightning {
+  background: rgb(225 234 255 / 0%);
+  animation: lightning-flash 8s linear infinite;
+}
+
+.effect-fog {
+  background:
+    radial-gradient(ellipse at 15% 55%, rgb(235 242 248 / 20%), transparent 55%),
+    radial-gradient(ellipse at 85% 75%, rgb(235 242 248 / 17%), transparent 48%);
+  filter: blur(22px);
+  animation: fog-drift 16s ease-in-out infinite alternate;
+}
+ .effect-fog {
+  position: absolute;
+  inset: -10%;
+  pointer-events: none;
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      180deg,
+      transparent 5%,
+      rgb(230 239 247 / 10%) 35%,
+      rgb(230 239 247 / 14%) 65%,
+      rgb(230 239 247 / 10%) 90%,
+      transparent 100%
+    ),
+    radial-gradient(
+      ellipse at 20% 55%,
+      rgb(239 245 250 / 25%),
+      transparent 90%
+    );
+
+  /* filter: blur(22px); */
+  opacity: 0.35;
+  animation: fog-drift 12s ease-in-out infinite alternate;
+}
+
+.effect-fog::before,
+.effect-fog::after {
+  content: "";
+  position: absolute;
+  inset: -15%;
+  pointer-events: none;
+
+  background: radial-gradient(
+    ellipse at center,
+    rgb(235 243 249 / 20%) 0%,
+    rgb(235 243 249 / 12%) 40%,
+    transparent 72%
+  );
+
+  filter: blur(30px);
+}
+
+.effect-fog::before {
+  animation: fog-layer-a 16s ease-in-out infinite alternate;
+}
+
+.effect-fog::after {
+  opacity: 0.35;
+  animation: fog-layer-b 21s ease-in-out infinite alternate;
+}
+
+@keyframes sunlight-breathe {
+  from { opacity: 0.45; }
+  to { opacity: 0.9; }
+}
+
+@keyframes rain-fall {
+  from { transform: translate3d(0, 0, 0) rotate(13deg); }
+  to { transform: translate3d(-45px, 115vh, 0) rotate(13deg); }
+}
+
+@keyframes snow-fall {
+  0% { transform: translate3d(0, -5vh, 0); }
+  50% { transform: translate3d(28px, 52vh, 0); }
+  100% { transform: translate3d(-18px, 112vh, 0); }
+}
+
+@keyframes wind-sweep {
+  0% { transform: translateX(0) scaleX(0.55); opacity: 0; }
+  25% { opacity: 1; }
+  100% { transform: translateX(520%) scaleX(1.2); opacity: 0; }
+}
+
+@keyframes lightning-flash {
+  0%, 93%, 95%, 97%, 100% { background-color: rgb(225 234 255 / 0%); }
+  94% { background-color: rgb(225 234 255 / 13%); }
+  96% { background-color: rgb(225 234 255 / 7%); }
+}
+
+@keyframes fog-drift {
+  from {
+    transform: translate3d(-2%, 0, 0);
+    opacity: 0.6;
+  }
+  to {
+    transform: translate3d(2%, -1%, 0);
+    opacity: 0.65;
+  }
+}
+
+@keyframes fog-layer-a {
+  from {
+    transform: translate3d(-5%, 2%, 0) scale(1);
+  }
+  to {
+    transform: translate3d(7%, -2%, 0) scale(1.08);
+  }
+}
+
+@keyframes fog-layer-b {
+  from {
+    transform: translate3d(6%, -2%, 0) scale(1.05);
+  }
+  to {
+    transform: translate3d(-7%, 3%, 0) scale(0.98);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .effect-sunlight,
+  .rain-drop,
+  .snow-flake,
+  .wind-streak,
+  .effect-lightning,
+  .effect-fog {
+    animation: none !important;
+  }
+  .rain-drop, .snow-flake, .wind-streak { display: none; }
+}
+/*  */
+
+.rain-effect {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.rain-effect-drop {
+  position: absolute;
+  top: -35px;
+  display: block;
+  border-radius: 50%;
+  background: linear-gradient(
+    to bottom,
+    rgba(210, 235, 255, 0),
+    rgba(190, 220, 255, 0.7)
+  );
+  animation: rain-screen-fall var(--fall-duration) linear
+    var(--fall-delay) infinite;
+  will-change: transform;
+}
+
+@keyframes rain-screen-fall {
+  from {
+    transform: translate3d(0, -35px, 0);
+  }
+
+  to {
+    transform: translate3d(
+      calc(var(--fall-drift) * -1),
+      calc(100vh + 70px),
+      0
+    );
+  }
+}
+
+.rain-effect-light .rain-effect-drop {
+  filter: blur(0.25px);
+}
+
+.rain-effect-heavy .rain-effect-drop {
+  background: linear-gradient(
+    to bottom,
+    rgba(210, 235, 255, 0),
+    rgba(190, 220, 255, 0.8)
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rain-effect-drop {
+    animation: none !important;
+  }
+}

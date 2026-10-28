@@ -1,15 +1,17 @@
-import { useEffect, useRef } from "react";
-import {getWeatherIcon, getConditionLabel } from "../../utils/weather";
+import { useRef } from "react";
+import {getWeatherIcon } from "../../utils/weather";
+import { useLanguage } from "../../context/LanguageContext";
+import {convertTemperature, formatValue} from "../../utils/units";
+import WeatherIllustration from "../../components/weather-visuals/WeatherIllustration";
+import { getWeatherCondition } from "../../utils/weather";
 
-function WeeklyForecast({forecastData}) {
-  
-
+function WeeklyForecast({forecastData, units}) {
   const sliderRef = useRef(null);
 
   const isDown = useRef(false);
   const startX = useRef(0);
   const scrollLeft = useRef(0);
-
+  const { t } = useLanguage();
   const handleMouseDown = (e) => {
     isDown.current = true;
 
@@ -49,28 +51,28 @@ function WeeklyForecast({forecastData}) {
   };
 
 
-useEffect(() => {
-  const slider = sliderRef.current;
+// useEffect(() => {
+//   const slider = sliderRef.current;
 
-  if (!slider) return;
+//   if (!slider) return;
 
-  const handleWheel = (e) => {
-    const maxScroll = slider.scrollWidth - slider.clientWidth;
-    // if haven't horizontal scroll
-    if (maxScroll <= 0) return;
-    e.preventDefault();
-    e.stopPropagation();
-    slider.scrollLeft += e.deltaY;
-  };
+//   const handleWheel = (e) => {
+//     const maxScroll = slider.scrollWidth - slider.clientWidth;
+//     // if haven't horizontal scroll
+//     if (maxScroll <= 0) return;
+//     e.preventDefault();
+//     e.stopPropagation();
+//     slider.scrollLeft += e.deltaY;
+//   };
 
-  slider.addEventListener("wheel", handleWheel, {
-    passive: false,
-  });
+//   slider.addEventListener("wheel", handleWheel, {
+//     passive: false,
+//   });
 
-  return () => {
-    slider.removeEventListener("wheel", handleWheel);
-  };
-}, []);
+//   return () => {
+//     slider.removeEventListener("wheel", handleWheel);
+//   };
+// }, []);
 
   return (
     <section
@@ -83,17 +85,33 @@ useEffect(() => {
         onMouseMove={handleMouseMove}
     >
       {forecastData && forecastData.map((data, index)=>(
-        <div className="wf-card card" key={index}>
+        <div className="wf-card glass" key={index}>
             <h4>
-              {data.day}
+              {t.days[data.day]}
             </h4>
-            <span>
+            <WeatherIllustration
+              condition={getWeatherCondition(data.weatherCode)}
+              width={30}
+              scale={2}
+              theme="light"
+              className="weekly-icon"
+            />
+            {/* <span>
               {getWeatherIcon(data.weatherCode)}
-            </span>
+            </span> */}
             <span>
-              {getConditionLabel(data.weatherCode)}
+              {t.labels[data.weatherCode]}
             </span>
-            <h3>{data.minTemp}/{data.maxTemp}°C</h3>
+            <h3 dir="ltr">
+              {formatValue(convertTemperature(
+                data.minTemp,
+                units.temperature
+              ))}/{formatValue(convertTemperature(
+                data.maxTemp,
+                units.temperature
+              ))}°
+              {units.temperature === "celsius" ? "C" : "F"}
+            </h3>
         </div>
       ))}
     </section>

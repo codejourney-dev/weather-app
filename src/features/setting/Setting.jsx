@@ -1,49 +1,193 @@
-function Setting(){
+import { useLanguage } from "../../context/LanguageContext";
+import { CircleX } from "lucide-react";
+
+function Setting({
+  activePanel,
+  units, 
+  setUnits, 
+  onLanguageChange,
+  onClose
+}){
+
+    const {language, t} =useLanguage();
+    const changeLanguage = (lang) => {
+      onLanguageChange(lang);
+    };
+
     return(
-        <section className="setting-menu">
+        <section 
+          className={`setting-menu ${activePanel == "setting" ? "setting-open" : ""}`}
+          data-panel-root="setting"
+        >
+          <div className="setting-header">
+            <button
+              type="button"
+              className="panel-close-button"
+              onClick={onClose}
+              aria-label={language === "fa" ? "بستن تنظیمات" : "Close settings"}
+            >
+              <CircleX size={22} />
+            </button>
+          </div>
           <div className="header">
-            <h2>Setting</h2>
+            <h2>{t.ui.settings}</h2>
           </div>
           <div className="contain">
             <div className="change-lang">
               <div className="head">
-                <h4>Language Selection</h4>
+                <h4>{t.ui.language}</h4>
               </div>
-              <div>
-                <input type="radio" id="eng" name="language" value="english" checked />
-                <label htmlFor="eng">English</label>
-              </div>
-              <div>
-                <input type="radio" id="per" name="language" value="persian" />
-                <label htmlFor="per">فارسی</label>
+              <div className="setting-btns">
+                <button
+                  className={`${language=="en" ? "is-selected" : ""}`}
+                  onClick={()=>changeLanguage("en")}
+                >
+                  English
+                </button>
+                <button
+                  className={`${language=="fa" ? "is-selected" : ""}`}
+                  onClick={()=>changeLanguage("fa")}
+                >
+                  فارسی
+                </button>
               </div>
             </div>
             <div className="change-units">
-              <div className="head"><h3>Change Units</h3></div>
-              <div className="change-temp">
-                <div className="head"><h4>Change Temperature</h4></div>
-                <div>
-                  <input type="radio" id="cel" name="temperature-unit" value="celsius" checked/>
-                  <label htmlFor="cel">Celsius</label>
-                </div>
-                <div>
-                  <input type="radio" id="rah" name="temperature-unit" value="Fahrenheit" />
-                  <label htmlFor="rah">Fahrenheit</label>
+              <div className="change-contain">
+                <div className="head"><h4>{t.ui.temperature}</h4></div>
+                <div className="change-warp setting-btns">
+                  <button 
+                  type="button"
+                    className={` ${
+                      units.temperature === "celsius" ? "is-selected" : ""
+                    }`}
+                    onClick={() =>
+                      setUnits((prev) => ({
+                        ...prev,
+                        temperature: "celsius",
+                      }))
+                    }
+                  >
+                    Celsius
+                  </button>
+                  <button 
+                  type="button"
+                    className={` ${
+                      units.temperature === "fahrenheit" ? "is-selected" : ""
+                    }`}
+                    onClick={() =>
+                      setUnits((prev) => ({
+                        ...prev,
+                        temperature: "fahrenheit",
+                      }))
+                    }
+                  >
+                    Fahrenheit
+                  </button>
                 </div>
               </div>
               <div className="change-speed">
-                <div className="head"><h4>Change Speed</h4></div>
-                <div>
-                  <input type="radio" id="metric" name="speed-unit" value="Metric" checked/>
-                  <label htmlFor="metric">Kilometers per hour</label>
+                <div className="head"><h4>{t.ui.windSpeed}</h4></div>
+                <div className="setting-btns">
+                  <button 
+                    className={` ${
+                      units.windSpeed === "ms" ? "is-selected" : ""
+                    }`}
+                    onClick={() =>
+                      setUnits((prev) => ({
+                        ...prev,
+                        windSpeed: "ms",
+                      }))
+                    }
+                  >
+                    m/s
+                  </button>
+                  <button 
+                    className={` ${
+                      units.windSpeed === "kmh" ? "is-selected" : ""
+                    }`}
+                    onClick={() =>
+                      setUnits((prev) => ({
+                        ...prev,
+                        windSpeed: "kmh",
+                      }))
+                    }
+                  >
+                    km/h
+                  </button>
+                  <button 
+                    className={` ${
+                      units.windSpeed === "mph" ? "is-selected" : ""
+                    }`}
+                    onClick={() =>
+                      setUnits((prev) => ({
+                        ...prev,
+                        windSpeed: "mph",
+                      }))
+                    }
+                  >
+                    mph
+                  </button>
                 </div>
-                <div>
-                  <input type="radio" id="imperial" name="speed-unit" value="Imperial" />
-                  <label htmlFor="imperial">Miles per hour</label>
+              </div>
+              <div className="change-speed">
+                <div className="head"><h4>{t.ui.windSpeed}</h4></div>
+                <div className="setting-btns">
+                  <button 
+                    className={` ${
+                      units.pressure === "mmhg" ? "is-selected" : ""
+                    }`}
+                    onClick={() =>
+                      setUnits((prev) => ({
+                        ...prev,
+                        pressure: "mmhg",
+                      }))
+                    }
+                  >
+                    mmHg
+                  </button>
+                  <button 
+                    className={` ${
+                      units.pressure === "mbar" ? "is-selected" : ""
+                    }`}
+                    onClick={() =>
+                      setUnits((prev) => ({
+                        ...prev,
+                        pressure: "mbar",
+                      }))
+                    }
+                  >
+                    mbar
+                  </button>
+                  <button 
+                    className={` ${
+                      units.pressure === "hpa" ? "is-selected" : ""
+                    }`}
+                    onClick={() =>
+                      setUnits((prev) => ({
+                        ...prev,
+                        pressure: "hpa",
+                      }))
+                    }
+                  >
+                    hPa
+                  </button>
+                  <button 
+                    className={` ${
+                      units.pressure === "inhg" ? "is-selected" : ""
+                    }`}
+                    onClick={() =>
+                      setUnits((prev) => ({
+                        ...prev,
+                        pressure: "inhg",
+                      }))
+                    }
+                  >
+                    inHg
+                  </button>
                 </div>
               </div>
             </div>
-            <button className='card'>Apply</button>
           </div>
         </section>
     )

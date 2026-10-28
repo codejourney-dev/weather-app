@@ -1,0 +1,48 @@
+/* UI theme styles. Atmospheric backgrounds and animated effects are separate layers. */
+
+/* UI theme styles only. Atmospheric backgrounds live in background-layer.css. */
+.app-container {
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+  min-height: 100vh;
+  color: var(--weather-text, #17191e);
+  background: transparent;
+  transition: color 500ms ease;
+}
+
+.app-container.theme-dark {
+  --weather-text: #F4F5FC;
+  color: var(--weather-text);
+}
+
+.app-container.theme-dark .card,
+.app-container.theme-dark .setting-menu {
+  color: #F4F5FC;
+  background-color: rgba(25, 35, 59, .84);
+  border-color: rgba(218, 226, 255, .45);
+  box-shadow: 0 3px 0 rgba(8, 14, 30, .6);
+  backdrop-filter: blur(12px);
+}
+
+.app-container.theme-dark button,
+.app-container.theme-dark input,
+.app-container.theme-dark select {
+  color: inherit;
+}
+
+.app-container.theme-dark .forecast-warp {
+  background-color: rgba(18, 29, 52, .72);
+  border-color: rgba(218, 226, 255, .45);
+}
+
+.app-container.theme-dark .app-menu a {
+  color: #F4F5FC;
+  text-decoration: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-container {
+    transition: none;
+  }
+}
