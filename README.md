@@ -1,128 +1,186 @@
 # Weather App
 
-A responsive weather application built with **React** and the
-**Open-Meteo API**, featuring weather forecasts, location management,
-and a customizable interface.
+A responsive weather application built with **React, JavaScript, and Vite**, powered by the [Open-Meteo API](https://open-meteo.com/).
+
+Explore current weather conditions, forecasts, air quality, and marine weather through an interactive interface with dynamic weather visuals and Persian/English language support.
+
+## Live Demo
+
+**[Open Weather App](https://codejourney-dev.github.io/weather-app/)**
 
 ## Features
 
--   Current weather conditions
--   Hourly forecast carousel
--   7-day weather forecast carousel
--   Detailed weather information
--   Air quality information
--   Marine weather information
--   Historical weather section
--   Search and manage locations
--   Persian and English interface
--   Responsive layout for desktop and mobile
--   Mouse, touch, and carousel interactions
--   Weather-dependent backgrounds, illustrations, and visual effects
--   Settings and browser-based persistence with `localStorage`
+- **Current Weather** — View current weather conditions for a selected location.
+- **Hourly Forecast** — Explore hourly weather predictions using an interactive carousel.
+- **7-Day Forecast** — Browse the upcoming weekly forecast.
+- **Air Quality** — Explore air quality data and related environmental indicators.
+- **Marine Weather** — View marine conditions and wave-related information where data is available.
+- **Location Management** — Search for and manage locations.
+- **Bilingual Interface** — Switch between Persian (فارسی) and English.
+- **Dynamic Weather Visuals** — Weather illustrations, animated effects, and backgrounds that respond to weather conditions and time of day.
+- **Responsive Design** — Layouts designed for desktop and mobile screens.
+- **Interactive Components** — Reusable UI components, carousels, and mouse/touch interactions.
+- **Settings & Persistence** — Save supported preferences in browser `localStorage`.
 
-> Some weather data and features depend on the availability of the
-> relevant Open-Meteo API endpoints.
+*Data availability depends on the selected location and the capabilities of the relevant API endpoints.*
 
 ## Tech Stack
 
--   **React**
--   **JavaScript (JSX)**
--   **CSS**
--   **Open-Meteo API**
--   **Git and GitHub**
+| Technology | Purpose |
+|---|---|
+| React | UI development and reusable components |
+| JavaScript (ES Modules) | Application logic |
+| Vite | Development server and production builds |
+| CSS | Layout, styling, animations, and visual effects |
+| React Router | Client-side routing |
+| Lucide React | UI icons |
+| Open-Meteo APIs | Weather, geocoding, air quality, and marine data |
+| Git & GitHub | Version control and source code hosting |
+| GitHub Pages | Static website deployment |
 
-## API
+## APIs
 
-Weather and geocoding data are provided by
-[Open-Meteo](https://open-meteo.com/).
+This project uses Open-Meteo services to retrieve weather and environmental data.
 
--   [Open-Meteo Weather API](https://open-meteo.com/en/docs)
--   [Open-Meteo Geocoding
-    API](https://open-meteo.com/en/docs/geocoding-api)
+- [Weather Forecast API](https://open-meteo.com/en/docs)
+- [Geocoding API](https://open-meteo.com/en/docs/geocoding-api)
+- [Air Quality API](https://open-meteo.com/en/docs/air-quality-api)
+- [Marine API](https://open-meteo.com/en/docs/marine-weather-api)
+
+See the [Open-Meteo website](https://open-meteo.com/) for API documentation, usage terms, and data availability.
 
 ## Getting Started
 
 ### Prerequisites
 
--   [Node.js](https://nodejs.org/) and npm
--   Git (optional, for cloning the repository)
+Make sure you have the following installed:
+
+- [Node.js](https://nodejs.org/)
+- npm (included with Node.js)
+- [Git](https://git-scm.com/) (optional, for cloning the repository)
 
 ### Installation
 
-1.  Clone the repository:
+1. Clone the repository:
 
-    ``` bash
-    git clone <repository-url>
-    ```
+   ```bash
+   git clone https://github.com/codejourney-dev/weather-app.git
+   ```
 
-2.  Move into the project directory (and into the frontend directory if
-    your `package.json` is there):
+2. Navigate to the project directory:
 
-    ``` bash
-    cd <project-directory>
-    ```
+   ```bash
+   cd weather-app
+   ```
 
-3.  Install dependencies:
+3. Install dependencies:
 
-    ``` bash
-    npm install
-    ```
+   ```bash
+   npm install
+   ```
 
-4.  Start the development server:
+4. Start the development server:
 
-    ``` bash
-    npm run dev
-    ```
+   ```bash
+   npm run dev
+   ```
 
-    If the project uses a different setup, check the available scripts
-    in `package.json`.
+5. Open the local URL shown in your terminal, usually:
+
+   ```text
+   http://localhost:5173/
+   ```
+
+### Available Scripts
+
+| Command | Description |
+|---|---|
+| `npm run dev` | Start the local development server |
+| `npm run build` | Create a production build |
+| `npm run preview` | Preview the production build locally |
+| `npm run lint` | Run ESLint checks |
 
 ### Production Build
 
-To create a production build:
+To generate the production files, run:
 
-``` bash
+```bash
 npm run build
 ```
 
-For a Vite project, the production files are typically generated in the
-`dist` directory.
-
-## Language Support
-
-The interface supports **Persian** and **English**. The language setting
-can be changed in the application. Some location names may depend on the
-language returned by the geocoding service.
+Vite outputs the generated files to the `dist/` directory.
 
 ## Project Structure
 
-The exact structure may change as the project evolves. The application
-is organized around reusable UI and weather-related components, with
-styles and API/data logic separated where appropriate.
+```text
+weather-app/
+├── public/                 # Static public assets
+├── src/
+│   ├── components/
+│   │   ├── layout/         # Header and footer
+│   │   ├── ui/             # Reusable UI components
+│   │   └── weather-visuals/# SVG weather illustrations
+│   ├── context/            # React context and language state
+│   ├── data/               # Weather variables and codes
+│   ├── effects/            # Weather effects and animations
+│   ├── features/
+│   │   ├── airQuality/     # Air quality features
+│   │   ├── location/       # Location management
+│   │   ├── marineWeather/  # Marine weather features
+│   │   ├── setting/        # Application settings
+│   │   └── weather/        # Forecasts and weather details
+│   ├── locales/            # English and Persian translations
+│   ├── pages/              # Application pages
+│   ├── services/           # API requests
+│   ├── theme/              # Backgrounds and visual themes
+│   ├── utils/               # Helper functions
+│   ├── App.jsx
+│   └── main.jsx
+├── .github/
+│   └── workflows/          # GitHub Actions deployment workflow
+├── index.html
+├── package.json
+├── vite.config.js
+└── README.md
+```
+
+## Language Support
+
+The application supports:
+
+- **English**
+- **Persian (Farsi)**
+
+The interface includes language-specific translations and supports both languages through the application's localization system.
 
 ## Deployment
 
-The app can be deployed to a static hosting platform such as:
+The project is published using **GitHub Pages**.
 
--   [Netlify](https://www.netlify.com/)
--   [Cloudflare Pages](https://pages.cloudflare.com/)
+**Live URL:** https://codejourney-dev.github.io/weather-app/
 
-Both offer free hosting options and a platform-provided subdomain, so
-purchasing a custom domain is not required. Connect the GitHub
-repository and configure the build command and output directory
-according to the project's setup.
+Deployment is automated through GitHub Actions. When changes are pushed to the `main` branch, the workflow builds the application and deploys the generated `dist/` directory.
 
-## Project Goal
+## Project Status
 
-This project began as a weather UI prototype and evolved into a
-functional React application connected to a real weather API. It is also
-part of a broader learning journey in frontend development, from Vanilla
-JavaScript to React and eventually full-stack development.
+**Status: Ongoing development**
 
-## Status
+The project has evolved from a weather UI prototype into a React application integrated with live weather APIs. Improvements and refinements may continue as development progresses.
 
-**Completed initial release --- ongoing improvements are possible.**
+## Future Improvements
 
-Future improvements may include additional weather charts, refinements
-to loading and error states, accessibility improvements, and further UI
-polish.
+Potential areas for future development include:
+
+- More weather charts and data visualizations
+- Improved loading and error states
+- Accessibility and usability refinements
+- Further UI and animation improvements
+- Additional forecast and location-management enhancements
+
+## License
+
+No license has been specified yet. Unless a license is added to the repository, the project should not be assumed to be open source under a particular license.
+
+---
+
+Built as part of a journey in frontend development and building practical projects with React.
