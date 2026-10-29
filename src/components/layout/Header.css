@@ -772,7 +772,7 @@
 
   .location-panel-shell .location-mgt {
     background: transparent; 
-
+  }
   .settings-panel-shell .setting-header {
     background: var(--mobile-panel-surface);
     -webkit-backdrop-filter: none;
