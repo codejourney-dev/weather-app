@@ -149,10 +149,7 @@
 }
 .location-panel-shell {
   position: absolute;
-  top: calc(100% + 8px);
-  inset-inline-start: 0;
   width: 100%;
-  max-height: min(430px, 70vh);
   overflow: hidden;
   box-sizing: border-box;
   border-radius: 22px;
@@ -164,8 +161,7 @@
   box-shadow: var(--panel-shadow);
   visibility: hidden;
   pointer-events: none;
-  transform: translateY(-6px);
-  transition: opacity 180ms ease,transform 180ms ease,visibility 180ms ease;
+  transition: opacity 180ms ease,visibility 180ms ease;
   z-index: 1100;
   opacity: 0;
   margin-top: 0.5rem;
@@ -509,8 +505,8 @@
     position: fixed;
     inset: 0;
     width: 100%;
-    height: 100%;
-    top: 100% !important;
+    height: max-content !important;
+    top: 10% !important;
     max-height: none;
     padding:
       max(20px, env(safe-area-inset-top))
@@ -676,7 +672,6 @@
     background: transparent;
   }
   .settings-panel-shell .setting-header {
-    background: var(--mobile-panel-surface);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
