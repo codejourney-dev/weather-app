@@ -5,9 +5,11 @@
   overflow: hidden;
   pointer-events: none;
 
+  /* Fallback values; weatherVisuals.js supplies the current gradient. */
   --weather-gradient: linear-gradient(145deg, #C4E9F4, #55B9E8, #80D4D0);
 }
 
+/* Dynamic time-of-day gradient comes from visualState.style in App.jsx. */
 .background-gradient {
   position: absolute;
   inset: 0;
@@ -16,6 +18,7 @@
   transition: background 700ms ease;
 }
 
+/* Fine grain texture, intentionally subtle and CSS/SVG-based (no photo). */
 .background-texture {
   position: absolute;
   inset: 0;
@@ -24,6 +27,7 @@
   background-size: 180px 180px;
 }
 
+/* Soft atmospheric light. */
 .background-glow {
   position: absolute;
   inset: 0;
@@ -33,23 +37,21 @@
   opacity: 0.8;
   transition: opacity 500ms ease, background 700ms ease;
 }
-
 .background-layer[data-theme="dark"] .background-texture {
   opacity: 0.035;
 }
-
 .background-layer[data-theme="dark"] .background-glow {
   background:
     radial-gradient(ellipse at 75% 12%, rgb(120 160 220 / 13%), transparent 45%),
     radial-gradient(ellipse at 15% 70%, rgb(75 95 150 / 12%), transparent 40%);
   opacity: 0.75;
 }
-
 .background-layer[data-time="dawn"] .background-glow,
 .background-layer[data-time="sunset"] .background-glow {
   opacity: 1;
 }
 
+/* Weather condition texture: static atmosphere only, not animated particles. */
 .background-condition-overlay {
   position: absolute;
   inset: 0;
@@ -58,6 +60,7 @@
   transition: opacity 500ms ease;
 }
 
+/* Cloud cover and fog haze. */
 .background-layer[data-condition="cloudy"] .background-condition-overlay,
 .background-layer[data-condition="partly-cloudy"] .background-condition-overlay,
 .background-layer[data-condition="mostly-clear"] .background-condition-overlay,
@@ -69,69 +72,50 @@
     radial-gradient(ellipse at 58% 55%, rgb(255 255 255 / 18%) 0 9%, transparent 35%);
   filter: blur(16px);
 }
-
 .background-layer[data-condition="fog"] .background-condition-overlay {
   opacity: 0.16;
   filter: blur(16px);
 }
 
+/* Rain / drizzle texture. Animated rain will be handled by WeatherEffects. */
 .background-layer[data-condition="rain"] .background-condition-overlay,
 .background-layer[data-condition="drizzle"] .background-condition-overlay,
 .background-layer[data-condition="freezing-rain"] .background-condition-overlay,
 .background-layer[data-condition="thunderstorm"] .background-condition-overlay {
   opacity: 0.10;
-
   background-image:
-    repeating-linear-gradient(
-      108deg,
-      transparent 0 23px,
-      rgb(235 246 255 / 10%) 24px,
-      rgb(235 246 255 / 30%) 25px,
-      transparent 26px 43px
-    ),
-    repeating-linear-gradient(
-      108deg,
-      transparent 0 57px,
-      rgb(235 246 255 / 8%) 58px,
-      transparent 59px 83px
-    );
-
-  background-size:
-    173px 241px,
-    227px 293px;
-
+    repeating-linear-gradient(108deg,transparent 0 23px,rgb(235 246 255 / 10%) 24px,rgb(235 246 255 / 30%) 25px,transparent 26px 43px),
+    repeating-linear-gradient(108deg,transparent 0 57px,rgb(235 246 255 / 8%) 58px,transparent 59px 83px);
+  background-size: 173px 241px,227px 293px;
   animation: rain-texture-drift 8s linear infinite;
 }
-
 @keyframes rain-texture-drift {
   from {
     background-position: 0 0, 40px -80px;
   }
-
   to {
     background-position: -48px 150px, -20px 100px;
   }
 }
-
 .background-layer[data-condition="thunderstorm"] .background-glow {
-  background:
-    radial-gradient(ellipse at 70% 0%, rgb(183 196 255 / 25%), transparent 55%);
+  background: radial-gradient(ellipse at 70% 0%, rgb(183 196 255 / 25%), transparent 55%);
 }
 
+/* Snow texture: scattered tiny snowflake glyphs, not a regular dotted grid.
+   Moving snowflakes remain the responsibility of WeatherEffects. */
 .background-layer[data-condition="snow"] .background-condition-overlay {
   opacity: 0.15;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='170' viewBox='0 0 150 170'%3E%3Cg stroke='%23ffffff' stroke-opacity='.78' stroke-width='1.15' stroke-linecap='round' fill='none'%3E%3Cpath d='M24 29v12m-5-9 10 6m0-6-10 6M106 18v9m-4-7 8 5m0-5-8 5M75 91v15m-6-11 12 7m0-7-12 7m6-11-3 4m3 7 3 4M128 132v10m-4-8 8 5m0-5-8 5M32 137v8m-3-6 6 4m0-4-6 4'/%3E%3C/g%3E%3Ccircle cx='55' cy='57' r='1.2' fill='%23ffffff' fill-opacity='.6'/%3E%3Ccircle cx='13' cy='105' r='1' fill='%23ffffff' fill-opacity='.55'/%3E%3Ccircle cx='113' cy='70' r='1.1' fill='%23ffffff' fill-opacity='.65'/%3E%3Ccircle cx='91' cy='151' r='.9' fill='%23ffffff' fill-opacity='.5'/%3E%3C/svg%3E");
   background-size: 150px 170px;
   background-position: 7px 11px;
-  
   animation: snow-texture-drift 18s linear infinite;
 }
-
 @keyframes snow-texture-drift {
   from { background-position: 7px 11px; }
   to   { background-position: 37px 181px; }
 }
 
+/* Windy atmosphere remains subtle; animated wind belongs to WeatherEffects. */
 .background-layer[data-windy="true"] .background-condition-overlay {
   opacity: 0.16;
   background-image: repeating-linear-gradient(
@@ -142,7 +126,6 @@
   );
   background-size: 100% 180px;
 }
-
 @media (prefers-reduced-motion: reduce) {
   .background-gradient,
   .background-glow,

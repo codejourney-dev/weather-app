@@ -1,4 +1,3 @@
-
 import Sun from "./Sun";
 import Moon from "./Moon";
 import Cloud from "./Cloud";
@@ -14,53 +13,45 @@ export default function WeatherIllustration({
   scale = 1,
 }) {
   const night = theme === "dark";
-
-
-const clearConditions = [
-  "clear",
-  "mostly-clear",
-  "partly-cloudy",
-];
-
-const cloudyConditions = [
-  "partly-cloudy",
-  "cloudy",
-  "fog",
-  "light-drizzle",
-  "moderate-drizzle",
-  "dense-drizzle",
-  "light-rain",
-  "moderate-rain",
-  "heavy-rain",
-  "light-snow",
-  "moderate-snow",
-  "heavy-snow",
-  "thunderstorm",
-];
-
-const rainyConditions = [
-  "light-drizzle",
-  "moderate-drizzle",
-  "dense-drizzle",
-  "light-rain",
-  "moderate-rain",
-  "heavy-rain",
-  "thunderstorm",
-];
-
-const snowyConditions = [
-  "light-snow",
-  "moderate-snow",
-  "heavy-snow",
-];
-
-const showOrb = clearConditions.includes(condition);
-const cloudy = cloudyConditions.includes(condition);
-const showRain = rainyConditions.includes(condition);
-const showSnow = snowyConditions.includes(condition);
-const showLightning = condition === "thunderstorm";
-
-
+  const clearConditions = [
+    "clear",
+    "mostly-clear",
+    "partly-cloudy",
+  ];
+  const cloudyConditions = [
+    "partly-cloudy",
+    "cloudy",
+    "fog",
+    "light-drizzle",
+    "moderate-drizzle",
+    "dense-drizzle",
+    "light-rain",
+    "moderate-rain",
+    "heavy-rain",
+    "light-snow",
+    "moderate-snow",
+    "heavy-snow",
+    "thunderstorm",
+  ];
+  const rainyConditions = [
+    "light-drizzle",
+    "moderate-drizzle",
+    "dense-drizzle",
+    "light-rain",
+    "moderate-rain",
+    "heavy-rain",
+    "thunderstorm",
+  ];
+  const snowyConditions = [
+    "light-snow",
+    "moderate-snow",
+    "heavy-snow",
+  ];
+  const showOrb = clearConditions.includes(condition);
+  const cloudy = cloudyConditions.includes(condition);
+  const showRain = rainyConditions.includes(condition);
+  const showSnow = snowyConditions.includes(condition);
+  const showLightning = condition === "thunderstorm";
   const sceneWidth = width * scale;
   const compact = /\b(hourly-icon|weekly-icon)\b/.test(className);
   return (

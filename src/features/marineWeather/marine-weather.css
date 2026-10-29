@@ -33,16 +33,13 @@
   scroll-snap-type: x proximity;
   scrollbar-width: none;
 }
-
 .marine-carousel::-webkit-scrollbar {
   display: none;
 }
-
 .marine-carousel.dragging {
   cursor: grabbing;
   scroll-snap-type: none;
 }
-
 .marine-carousel > .mw-card {
     font-size: 1.5rem;
     display: grid;
@@ -52,24 +49,20 @@
     min-height: 300px;
     min-width: 300px;
 }
-
 .marine-weather {
   width: 100%;
 }
-
 .mw-container {
   display: flex;
   flex-direction: column;
   gap: 28px;
 }
-
 .mw-section {
   display: flex;
   flex-direction: column;
   gap: 16px;
   min-width: 0;
 }
-
 .mw-current-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -78,7 +71,6 @@
   margin: 0;
   list-style: none;
 }
-
 .mw-card {
   display: flex;
   flex-direction: column;
@@ -87,28 +79,23 @@
   padding: 16px;
   border-radius: 16px;
 }
-
 .mw-card h4,
 .mw-card p {
   margin: 0;
 }
-
 .mw-card p {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
   gap: 12px;
 }
-
 .mw-card p span:first-child {
   opacity: 0.75;
 }
-
 .mw-card p span:last-child {
   font-weight: 600;
   text-align: end;
 }
-
 .marine-carousel {
   display: flex;
   gap: 14px;
@@ -118,54 +105,49 @@
   scrollbar-width: none;
   scroll-snap-type: x proximity;
 }
-
 .marine-carousel::-webkit-scrollbar {
   display: none;
 }
-
 .marine-carousel > .mw-card {
   flex: 0 0 260px;
   scroll-snap-align: start;
 }
-
 .marine-carousel.dragging {
   cursor: grabbing;
   scroll-snap-type: none;
 }
-
-
 @media (max-width: 1400px) {
-    .mw-container{
-        width: 90%;
-    }
+  .mw-container{
+      width: 90%;
+  }
 }
 @media (max-width: 1200px) {
-    .mw-container ul{
-        grid-template-columns: repeat(3, 1fr);
-    }
+  .mw-container ul{
+      grid-template-columns: repeat(3, 1fr);
+  }
 }
 @media (max-width: 900px) {
-    .mw-container ul{
-        grid-template-columns: repeat(2, 1fr);
-    }
+  .mw-container ul{
+      grid-template-columns: repeat(2, 1fr);
+  }
 }
 @media (max-width: 650px) {
-    .mw-current-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 10px;
-    }
-    .mw-card {
-        padding: 12px;
-    }
-    .marine-carousel > .mw-card {
-        flex-basis: 230px;
-    }
-    .mw-container ul{
-        grid-template-columns: repeat(1, 1fr);
-    }
+  .mw-current-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+  }
+  .mw-card {
+      padding: 12px;
+  }
+  .marine-carousel > .mw-card {
+      flex-basis: 230px;
+  }
+  .mw-container ul{
+      grid-template-columns: repeat(1, 1fr);
+  }
 }
 @media (max-width: 450px) {
-    .mw-container ul{
-        grid-template-columns: repeat(1, 1fr);
-    }
+  .mw-container ul{
+      grid-template-columns: repeat(1, 1fr);
+  }
 }
