@@ -2,10 +2,11 @@ import { useRef } from "react";
 import WeatherIllustration from "../../components/weather-visuals/WeatherIllustration";
 import {convertTemperature, convertWindSpeed, formatValue} from "../../utils/units";
 import { getWeatherCondition } from "../../utils/weather";
+import { useLanguage } from "../../context/LanguageContext";
 
 function HourlyForecast({hourlyData, units}) {
 
-
+  const {t} = useLanguage();
 
   const sliderRef = useRef(null);
   const isDown = useRef(false);
@@ -48,30 +49,6 @@ function HourlyForecast({hourlyData, units}) {
     sliderRef.current.scrollLeft =
       scrollLeft.current - walk;
   };
-
-
-  // useEffect(() => {
-  //   const slider = sliderRef.current;
-
-  //   if (!slider) return;
-
-  //   const handleWheel = (e) => {
-  //     const maxScroll = slider.scrollWidth - slider.clientWidth;
-  //     // if haven't horizontal scroll
-  //     if (maxScroll <= 0) return;
-  //     e.preventDefault();
-  //     e.stopPropagation();
-  //     slider.scrollLeft += e.deltaY;
-  //   };
-
-  //   slider.addEventListener("wheel", handleWheel, {
-  //     passive: false,
-  //   });
-
-  //   return () => {
-  //     slider.removeEventListener("wheel", handleWheel);
-  //   };
-  // }, []);
   return (
     <div
         ref={sliderRef}
@@ -98,6 +75,9 @@ function HourlyForecast({hourlyData, units}) {
                 theme={isNight ? "dark" : "light"}
                 className="hourly-icon"
               />
+            </div>
+            <div className="forecast-title">
+              {t.labels[data.weatherCode]}
             </div>
             <h3 className="temperature" dir="ltr">
               {formatValue(

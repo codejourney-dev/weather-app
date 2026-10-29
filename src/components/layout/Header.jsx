@@ -173,17 +173,21 @@ function Header({
                   aria-controls="location-panel"
                   autoFocus
                 />
-                <button
-                  type="button"
-                  className="city-search-close"
-                  onClick={() => {
-                    setQuery("");
-                    setActivePanel(null);
-                  }}
-                  aria-label={language === "fa" ? "بستن جست‌وجو" : "Close search"}
-                >
-                  <CircleX size={18} />
-                </button>
+                {query.length > 0 &&(
+                  <button
+                    type="button"
+                    className="clear-search-btn"
+                    aria-label={
+                      language === "fa" ? "پاک کردن جست‌وجو" : "Clear search"
+                    }
+                    onClick={() => {
+                      setQuery("");
+                      setSuggestion([]);
+                    }}
+                  >
+                    <CircleX size={22} aria-hidden="true" />
+                  </button>
+                )}
             </div>
           ) : (
             <button

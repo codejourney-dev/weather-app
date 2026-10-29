@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import {CircleX} from 'lucide-react';
-import "./Location.css"
 function Location({
   activeCity, 
   setActiveCity, 
@@ -64,7 +63,7 @@ function Location({
               {selectedCities.map((city)=>(
                 <div 
                   key={`${city.latitude}-${city.longitude}`}
-                  className={`location glass ${
+                  className={`location ${
                     activeCity.latitude === city.latitude &&
                     activeCity.longitude === city.longitude
                       ? "is-selected"
