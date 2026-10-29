@@ -504,9 +504,9 @@
   .location-panel-shell {
     position: fixed;
     inset: 0;
-    width: 100%;
+    width: 96%;
     height: max-content !important;
-    top: 10% !important;
+    top: 8% !important;
     max-height: none;
     padding:
       max(20px, env(safe-area-inset-top))
@@ -517,7 +517,7 @@
     overflow-y: auto;
     z-index: 2000;
     background: var(--panel-bg-mobile) !important;
-    margin-top: 1rem;
+    margin: 1rem auto;
     border-radius: 16px !important;
   }
   .location-panel-shell .location-mgt {
